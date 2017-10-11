@@ -124,7 +124,7 @@ public class Person {
 	public void setBirthYear(int birth_year) throws PersonException {
 		if ((birth_year!=0) && (birth_year < 1900 || birth_year > 2030))
 			throw new PersonException("Rok urodzenia musi byæ w przedziale [1900 - 2030].");
-		this.birthYear = birth_year;
+		birthYear = birth_year;
 	}
 	
 	
