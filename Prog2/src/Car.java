@@ -1,5 +1,18 @@
 import java.util.Calendar;
 
+
+/*
+ *  Program: Operacje na obiektach klasy Car
+ *     Plik: Car.java
+ *           definicja typu wyliczeniowego CarBrand, Color
+ *           definicja klasy CarException
+ *           definicja publicznej klasy Car
+ *
+ *    Autor: Wojciech Wójcik
+ *     Data:  21 pazdziernik 2017 r.
+ */
+
+
 enum CarBrand{
      OTHER,
      FORD,
@@ -43,7 +56,7 @@ public class Car {
 
             }
         }
-        CarColor = color;
+        CarColor = carColor;
     }
 
     public void setEngineSize(int engineSize) throws CarException {
