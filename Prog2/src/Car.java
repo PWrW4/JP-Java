@@ -4,7 +4,7 @@ import java.util.Calendar;
 /*
  *  Program: Operacje na obiektach klasy Car
  *     Plik: Car.java
- *           definicja typu wyliczeniowego CarBrand, Color
+ *           definicja typu wyliczeniowego Brand, Color
  *           definicja klasy CarException
  *           definicja publicznej klasy Car
  *
@@ -13,7 +13,7 @@ import java.util.Calendar;
  */
 
 
-enum CarBrand{
+enum Brand {
      OTHER,
      FORD,
      MAZDA,
@@ -32,69 +32,96 @@ enum Color {
 }
 
 public class Car {
-    private CarBrand Brand;
-    private int ProdYear;
-    private Color CarColor;
-    private int EngineSize;
-    private String OwnerName;
+    private Brand carBrand;
+    private int prodYear;
+    private Color carColor;
+    private int engineSize;
+    private String ownerName;
 
-    public void setBrand(CarBrand brand) {
-        Brand = brand;
+    public Car(String ownerName,int engineSize,int prodYear) throws CarException {
+        setCarBrand(Brand.OTHER);
+        setCarColor(Color.OTHER);
+        setProdYear(prodYear);
+        setOwnerName(ownerName);
+        setEngineSize(engineSize);
     }
 
-    public void setBrand(String brand) {
-        //Brand = brand;
+    @Override
+    public String toString(){return carBrand.name() + " " + prodYear + " " + engineSize;}
+
+
+    public void setCarBrand(Brand carBrand) {
+        this.carBrand = carBrand;
+    }
+
+    public void setBrand(String carBrancString) throws CarException {
+        if (carBrancString == null || carBrancString.equals("")){
+            carBrand = Brand.OTHER;
+            return;
+        }
+        for (Brand brand : Brand.values()){
+            if (carBrancString.equals(brand.name())){
+                this.carBrand = brand;
+                return;
+            }
+        }
+        throw new CarException("Nie ma takiej marki");
     }
 
     public void setCarColor(Color carColor) {
-        CarColor = carColor;
+        this.carColor = carColor;
     }
 
-    public void setCollor(String colorString) {
+    public void setCollor(String colorString) throws CarException {
+        if (colorString == null || colorString.equals("")){
+            carColor = Color.OTHER;
+            return;
+        }
         for (Color color : Color.values()){
-            if (colorString.equals(Color.)){
-
+            if (colorString.equals(color.name())){
+                carColor = color;
+                return;
             }
         }
-        CarColor = carColor;
+        throw new CarException("Nie ma takiego koloru");
     }
 
     public void setEngineSize(int engineSize) throws CarException {
         if (engineSize<0)
             throw new CarException("Pojemność silnika musi byc wieksza od 0.");
-        EngineSize = engineSize;
+        this.engineSize = engineSize;
     }
 
     public void setProdYear(int prodYear) throws CarException{
         if (prodYear<1900 || prodYear>Calendar.getInstance().get(Calendar.YEAR))
             throw new CarException("Nieprawidłowa data, lub zła data ustawiona na urządzeniu.");
-        ProdYear = prodYear;
+        this.prodYear = prodYear;
     }
 
     public void setOwnerName(String ownerName) throws CarException{
         if ((ownerName == null) || ownerName.equals(""))
             throw new CarException("Pole <Imię> musi być wypełnione.");
-        OwnerName = ownerName;
+        this.ownerName = ownerName;
     }
 
     public String getOwnerName() {
-        return OwnerName;
+        return ownerName;
     }
 
-    public CarBrand getBrand() {
-        return Brand;
+    public Brand getCarBrand() {
+        return carBrand;
     }
 
     public Color getCollor() {
-        return CarColor;
+        return carColor;
     }
 
     public int getEngineSize() {
-        return EngineSize;
+        return engineSize;
     }
 
     public int getProdYear() {
-        return ProdYear;
+        return prodYear;
     }
 }
 
