@@ -10,28 +10,27 @@ import javax.swing.JTextField;
 
 
 /*
- * Program: Aplikacja okienkowa z GUI, która umożliwia testowanie
- *          operacji wykonywanych na obiektach klasy Person.
+ * Program: Aplikacja okienkowa z GUI, do klasy Car.java
  *    Plik: PersonWindowApp.java
  *
- *   Autor: Paweł Rogalinski
- *    Data: pazdziernik 2017 r.
+ *   Autor: Wojciech Wójcik na podstawie programu Paweł Rogaliński
+ *    Data: 24.10.2017 r.
  */
-public class PersonWindowApp extends JFrame implements ActionListener {
+public class CarWindowApp extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
     private static final String GREETING_MESSAGE =
-            "Program Person - wersja okienkowa\n" +
-                    "Autor: Paweł Rogalinski\n" +
-                    "Data:  październik 2017 r.\n";
+            "Program Car - wersja okienkowa\n" +
+                    "Autor: Wojciech Wójcik\n" +
+                    "Data:  24.10.2017 r.\n";
 
 
     public static void main(String[] args) {
         // Utworzenie obiektu reprezentującego główne okno aplikacji.
         // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
         // główne okno aplikacji.
-        new PersonWindowApp();
+        new CarWindowApp();
 
         // UWAGA: można utworzyć kilka okien aplikacji.
         // Wsystkie okna będą wyświetlone w tym samum miejscu na pulpicie.
@@ -57,16 +56,18 @@ public class PersonWindowApp extends JFrame implements ActionListener {
     Font font = new Font("MonoSpaced", Font.BOLD, 12);
 
     // Etykiety wyświetlane na panelu w głównym oknie aplikacji
-    JLabel surnameLabel = new JLabel("  Nazwisko: ");
-    JLabel nameLabel    = new JLabel("      Imię: ");
-    JLabel yearLabel    = new JLabel("   Rok ur.: ");
-    JLabel jobLabel     = new JLabel("Stanowisko: ");
+    JLabel brandLabel = new JLabel("           Marka: ");
+    JLabel colorLabel = new JLabel("           Kolor: ");
+    JLabel prodYearLabel = new JLabel("Rok produkcji: ");
+    JLabel engineSizeLabel = new JLabel(  "Pojemność: ");
+    JLabel ownerNameLabel = new JLabel(" Imię właśc.: ");
 
     // Pola tekstowe wyświetlane na panelu w głównym oknie aplikacji
-    JTextField firstNameField = new JTextField(10);
-    JTextField lastNameField    = new JTextField(10);
-    JTextField yearField    = new JTextField(10);
-    JTextField jobField     = new JTextField(10);
+    JTextField brandField = new JTextField(10);
+    JTextField colorField = new JTextField(10);
+    JTextField prodYearField = new JTextField(10);
+    JTextField engineSizeField = new JTextField(10);
+    JTextField ownerNameField     = new JTextField(10);
 
     // Przyciski wyświetlane na panelu w głównym oknie aplikacji
     JButton newButton    = new JButton("Nowa osoba");
@@ -81,28 +82,30 @@ public class PersonWindowApp extends JFrame implements ActionListener {
     /*
      * Utworzenie i konfiguracja głównego okna apkikacji
      */
-    public PersonWindowApp(){
+    public CarWindowApp(){
         // Konfiguracja parametrów głównego okna aplikacji
         setTitle("PersonWindowApp");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(270, 270);
+        setSize(270, 290);
         setResizable(false);
         setLocationRelativeTo(null);
 
         // Zmiana domyślnego fontu dla wszystkich etykiet
         // Użyto fontu o stałej szerokości znaków, by wyrównać
         // szerokość wszystkich etykiet.
-        surnameLabel.setFont(font);
-        nameLabel.setFont(font);
-        yearLabel.setFont(font);
-        jobLabel.setFont(font);
+        brandLabel.setFont(font);
+        colorLabel.setFont(font);
+        prodYearLabel.setFont(font);
+        engineSizeLabel.setFont(font);
+        ownerNameLabel.setFont(font);
 
         // Zablokowanie możliwości edycji tekstów we wszystkich
         // polach tekstowych.  (pola nieedytowalne)
-        firstNameField.setEditable(false);
-        lastNameField.setEditable(false);
-        yearField.setEditable(false);
-        jobField.setEditable(false);
+        brandField.setEditable(false);
+        colorField.setEditable(false);
+        prodYearField.setEditable(false);
+        engineSizeField.setEditable(false);
+        ownerNameField.setEditable(false);
 
 
         // Dodanie słuchaczy zdarzeń do wszystkich przycisków.
@@ -124,17 +127,20 @@ public class PersonWindowApp extends JFrame implements ActionListener {
 
         // Dodanie i rozmieszczenie na panelu wszystkich
         // komponentów GUI.
-        panel.add(surnameLabel);
-        panel.add(firstNameField);
+        panel.add(brandLabel);
+        panel.add(brandField);
 
-        panel.add(nameLabel);
-        panel.add(lastNameField);
+        panel.add(colorLabel);
+        panel.add(colorField);
 
-        panel.add(yearLabel);
-        panel.add(yearField);
+        panel.add(prodYearLabel);
+        panel.add(prodYearField);
 
-        panel.add(jobLabel);
-        panel.add(jobField);
+        panel.add(engineSizeLabel);
+        panel.add(engineSizeField);
+
+        panel.add(ownerNameLabel);
+        panel.add(ownerNameField);
 
         panel.add(newButton);
         panel.add(deleteButton);
@@ -166,15 +172,17 @@ public class PersonWindowApp extends JFrame implements ActionListener {
      */
     void showCurrentPerson() {
         if (currentCar == null) {
-            firstNameField.setText("");
-            lastNameField.setText("");
-            yearField.setText("");
-            jobField.setText("");
+            brandField.setText("");
+            colorField.setText("");
+            prodYearField.setText("");
+            engineSizeField.setText("");
+            ownerNameField.setText("");
         } else {
-            firstNameField.setText(currentPerson.getFirstName());
-            lastNameField.setText(currentPerson.getLastName());
-            yearField.setText("" + currentPerson.getBirthYear());
-            jobField.setText("" + currentPerson.getJob());
+            brandField.setText(currentCar.getCarBrand().name());
+            colorField.setText(currentCar.getCarCColor().name());
+            prodYearField.setText("" + currentCar.getCarProdYear());
+            engineSizeField.setText("" + currentCar.getCarEngineSize());
+            ownerNameField.setText("" + currentCar.getCarOwnerName());
         }
     }
 

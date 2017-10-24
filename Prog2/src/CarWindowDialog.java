@@ -17,13 +17,14 @@ import javax.swing.JTextField;
  *          operacji wykonywanych na obiektach klasy Person.
  *    Plik: PersonWindowDialog.java
  *
- *   Autor: Paweł Rogalinski
- *    Data: pazdziernik 2017 r.
+ *   Autor: Wojciech Wójcik na podstawie programu Paweł Rogaliński
+ *    Data: 24.10.2017 r.
+ *
  *
  *
  * Klasa PersonWindowDialog implementuje pomocnicze okna dialogowe
- * umożliwiające utworzenie i wypełnienie danymi nowego obiektu klasy Person
- * oraz modyfikację danych dla istniejącego obiektu klasy Person.
+ * umożliwiające utworzenie i wypełnienie danymi nowego obiektu klasy Car
+ * oraz modyfikację danych dla istniejącego obiektu klasy Car.
  */
 public class CarWindowDialog extends JDialog implements ActionListener {
 
@@ -74,7 +75,7 @@ public class CarWindowDialog extends JDialog implements ActionListener {
 
         // Konfiguracja parametrów tworzonego okna dialogowego
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(220, 200);
+        setSize(220, 290);
         setLocationRelativeTo(parent);
 
         // zapamiętanie referencji do osoby, której dane będą modyfikowane.
