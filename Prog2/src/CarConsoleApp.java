@@ -134,13 +134,13 @@ public class CarConsoleApp {
                         break;
                     case 4: {
                         String file_name = UI.enterString("Podaj nazwę pliku: ");
-                        //currentCar = Car.readFromFile(file_name);
+                        currentCar = Car.readFromFile(file_name);
                         UI.printInfoMessage("Dane aktualnej osoby zostały wczytane z pliku " + file_name);
                     }
                     break;
                     case 5: {
                         String file_name = UI.enterString("Podaj nazwę pliku: ");
-                        //Car.printToFile(file_name, currentPerson);
+                        Car.printToFile(file_name, currentCar);
                         UI.printInfoMessage("Dane aktualnej osoby zostały zapisane do pliku " + file_name);
                     }
 

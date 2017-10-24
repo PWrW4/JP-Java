@@ -165,7 +165,7 @@ public class CarWindowDialog extends JDialog implements ActionListener {
                 }
                 // Aktualizacja pozostałych danych osoby
                 car.setCarBrand((Brand) brandBox.getSelectedItem());
-                car.setCarCColor((CColor) brandBox.getSelectedItem());
+                car.setCarCColor((CColor) colorBox.getSelectedItem());
 
                 // Zamknięcie okna i zwolnienie wszystkich zasobów.
                 dispose();
