@@ -3,47 +3,126 @@ import java.util.Arrays;
 public class CarConsoleApp {
 
     private static final String GREETING_MESSAGE =
-                     "Car Console App\n" +
-                    "Autor: Wojciech Wójcik\n" +
+            "Car Console App\n" +
+                    "Autor: Wojciech Wï¿½jcik\n" +
                     "Data:  21.10.2017 r.\n";
 
     private static final String MENU =
-            "    M E N U   G £ Ó W N E  \n" +
+            "    M E N U   G ï¿½ ï¿½ W N E  \n" +
                     "1 - Podaj dane nowego auta\n" +
-                    "2 - Usuñ dane auta        \n" +
+                    "2 - Usuï¿½ dane auta        \n" +
                     "3 - Modyfikuj dane auta   \n" +
                     "4 - Wczytaj dane z pliku  \n" +
                     "5 - Zapisz dane do pliku  \n" +
-                    "0 - Zakoñcz program       \n";
+                    "0 - Zakoï¿½cz program       \n";
 
     private static final String CHANGE_MENU =
-            "   Co zmieniæ?     \n" +
+            "   Co zmieniï¿½?     \n" +
                     "1 - Marka           \n" +
                     "2 - Rocznik       \n" +
                     "3 - Kolor  \n" +
-                    "4 - Pojemnoœæ  \n" +
-                    "5 - Imiê w³aœciciela  \n" +
-                    "0 - Powrót do menu g³ównego\n";
+                    "4 - Pojemnoï¿½ï¿½  \n" +
+                    "5 - Imiï¿½ wï¿½aï¿½ciciela  \n" +
+                    "0 - Powrï¿½t do menu gï¿½ï¿½wnego\n";
 
 
     private static ConsoleUserDialog UI = new ConsoleUserDialog();
-
+    private Car currentCar = null;
 
     public static void main(String[] args) {
         CarConsoleApp carApp = new CarConsoleApp();
         carApp.runMainLoop();
     }
 
+    static void showCar(Car car) {
+        StringBuilder sb = new StringBuilder();
+
+        if (car != null) {
+            sb.append("        Dane auta: \n");
+            sb.append("           Marka: " + car.getCarBrand().name() + "\n");
+            sb.append("         Rocznik: " + car.getProdYear() + "\n");
+            sb.append("           Kolor: " + car.getCollor().name() + "\n");
+            sb.append("       Pojemnoï¿½ï¿½: " + car.getEngineSize() + "\n");
+            sb.append("Imiï¿½ wï¿½aï¿½ciciela: " + car.getOwnerName() + "\n");
+        } else {
+            sb.append("Brak danych" + "\n");
+        }
 
 
-    private Car currentCar = null;
+        UI.printMessage(sb.toString());
+    }
 
+    /*
+     * Meoda wczytuje w konsoli dane nowej osoby, tworzy nowy obiekt
+     * klasy Person i wypeï¿½nia atrybuty wczytanymi danymi.
+     * Walidacja poprawnoï¿½ci danych odbywa siï¿½ w konstruktorze i setterach
+     * klasy Person. Jeï¿½li zostanï¿½ wykryte niepoprawne dane
+     * to zostanie zgï¿½oszony wyjï¿½tek, ktï¿½ry zawiera komunikat o bï¿½ï¿½dzie.
+     */
+    static Car createNewPerson() {
+        UI.printMessage("Dozwolone Marki:" + Arrays.deepToString(Brand.values()));
+        String _brand = UI.enterString("Podaj markÄ™ auta: ");
+        String _prodYear = UI.enterString("Podaj rok produkcji: ");
+        String _engineSize = UI.enterString("Podaj wielkoÅ›Ä‡ silnika w cm3: ");
+        UI.printMessage("Dozwolone kolory:" + Arrays.deepToString(Color.values()));
+        String _color = UI.enterString("Podaj kolor: ");
+        String _ownerName = UI.enterString("Podaj imie i nazwisko wÅ‚aÅ›ciciela");
+        Car car;
+        try {
+            // utworzenie obiektu Car i "wpisanie" danych do niego
+            car = new Car(_ownerName,_engineSize,_prodYear);
+            car.setCarBrand(_brand);
+            car.setCarColor(_color);
+        } catch (CarException e) {
+            UI.printErrorMessage(e.getMessage());
+            return null;
+        }
+        return car;
+    }
 
+    /*
+     * Metoda pozwala wczytaï¿½ nowe dane dla poszczegï¿½lnych atrybutï¿½w
+     * obiekty person i zmienia je poprzez wywoï¿½anie odpowiednich setterï¿½w z klasy Person.
+     * Walidacja poprawnoï¿½ci wczyranych danych odbywa siï¿½ w setterach
+     * klasy Person. Jeï¿½li zostanï¿½ wykryte niepoprawne dane
+     * to zostanie zgï¿½oszony wyjï¿½tek, ktï¿½ry zawiera komunikat o bï¿½ï¿½dzie.
+     */
+    static void changePersonData(Person person) {
+        while (true) {
+            UI.clearConsole();
+            showPerson(person);
+
+            try {
+                switch (UI.enterInt(CHANGE_MENU + "==>> ")) {
+                    case 1:
+                        person.setFirstName(UI.enterString("Podaj imiï¿½: "));
+                        break;
+                    case 2:
+                        person.setLastName(UI.enterString("Podaj nazwisko: "));
+                        break;
+                    case 3:
+                        person.setBirthYear(UI.enterString("Podaj rok ur.: "));
+                        break;
+                    case 4:
+                        UI.printMessage("Dozwolone stanowiska:" + Arrays.deepToString(PersonJob.values()));
+                        person.setJob(UI.enterString("Podaj stanowisko: "));
+                        break;
+                    case 0:
+                        return;
+                }  // koniec instrukcji switch
+            } catch (PersonException e) {
+                // Tu sï¿½ wychwytywane wyjï¿½tki zgï¿½aszane przez metody klasy Person
+                // gdy nie sï¿½ speï¿½nione ograniczenia naï¿½oï¿½one na dopuszczelne wartoï¿½ci
+                // poszczegï¿½lnych atrybutï¿½w.
+                // Drukowanie komunikatu o bï¿½ï¿½dzie zgï¿½oszonym za pomocï¿½ wyjï¿½tku PersonException.
+                UI.printErrorMessage(e.getMessage());
+            }
+        }
+    }
 
     public void runMainLoop() {
 
         UI.printMessage(GREETING_MESSAGE);
-
 
 
         while (true) {
@@ -56,128 +135,34 @@ public class CarConsoleApp {
                         currentCar =
                         break;
                     case 2:
-                        // usuniêcie referencji/samochodu
+                        // usuniï¿½cie referencji/samochodu
                         currentCar = null;
-                        UI.printInfoMessage("Dane aktualnej osoby zosta³y usuniête");
+                        UI.printInfoMessage("Dane aktualnej osoby zostaï¿½y usuniï¿½te");
                         break;
                     case 3:
                         // edycja danych
-                        if (currentPerson == null) throw new PersonException("¯adna osoba nie zosta³a utworzona.");
+                        if (currentPerson == null) throw new PersonException("ï¿½adna osoba nie zostaï¿½a utworzona.");
                         changePersonData(currentPerson);
                         break;
                     case 4: {
-                        String file_name = UI.enterString("Podaj nazwê pliku: ");
+                        String file_name = UI.enterString("Podaj nazwï¿½ pliku: ");
                         currentPerson = Person.readFromFile(file_name);
-                        UI.printInfoMessage("Dane aktualnej osoby zosta³y wczytane z pliku " + file_name);
+                        UI.printInfoMessage("Dane aktualnej osoby zostaï¿½y wczytane z pliku " + file_name);
                     }
                     break;
                     case 5: {
-                        String file_name = UI.enterString("Podaj nazwê pliku: ");
+                        String file_name = UI.enterString("Podaj nazwï¿½ pliku: ");
                         Person.printToFile(file_name, currentPerson);
-                        UI.printInfoMessage("Dane aktualnej osoby zosta³y zapisane do pliku " + file_name);
+                        UI.printInfoMessage("Dane aktualnej osoby zostaï¿½y zapisane do pliku " + file_name);
                     }
 
                     break;
                     case 0:
-                        // zakoñczenie dzia³ania programu
-                        UI.printInfoMessage("\nProgram zakoñczy³ dzia³anie!");
+                        // zakoï¿½czenie dziaï¿½ania programu
+                        UI.printInfoMessage("\nProgram zakoï¿½czyï¿½ dziaï¿½anie!");
                         System.exit(0);
                 }
             } catch (CarException e) {
-                UI.printErrorMessage(e.getMessage());
-            }
-        }
-    }
-
-
-
-
-    static void showPerson(Car car) {
-        StringBuilder sb = new StringBuilder();
-
-        if (car != null) {
-            sb.append("        Dane auta: \n");
-            sb.append( "           Marka: " + car.getCarBrand().name() + "\n" );
-            sb.append( "         Rocznik: " + car.getProdYear() + "\n" );
-            sb.append( "           Kolor: " + car.getCollor().name() + "\n" );
-            sb.append( "       Pojemnoœæ: " + car.getEngineSize() + "\n");
-            sb.append( "Imiê w³aœciciela: " + car.getOwnerName() + "\n");
-        } else {
-            sb.append("Brak danych" + "\n");
-        }
-
-
-        UI.printMessage( sb.toString() );
-    }
-
-
-    /*
-     * Meoda wczytuje w konsoli dane nowej osoby, tworzy nowy obiekt
-     * klasy Person i wype³nia atrybuty wczytanymi danymi.
-     * Walidacja poprawnoœci danych odbywa siê w konstruktorze i setterach
-     * klasy Person. Jeœli zostan¹ wykryte niepoprawne dane
-     * to zostanie zg³oszony wyj¹tek, który zawiera komunikat o b³êdzie.
-     */
-    static Person createNewPerson(){
-        String first_name = UI.enterString("Podaj imiê: ");
-        String last_name = UI.enterString("Podaj nazwisko: ");
-        String birth_year = UI.enterString("Podaj rok ur.: ");
-        UI.printMessage("Dozwolone stanowiska:" + Arrays.deepToString(PersonJob.values()));
-        String job_name = UI.enterString("Podaj stanowisko: ");
-        Person person;
-        try {
-            // Utworzenie nowego obiektu klasy Person oraz
-            // ustawienie wartoœci wszystkich atrybutów.
-            person = new Person(first_name, last_name);
-            person.setBirthYear(birth_year);
-            person.setJob(job_name);
-        } catch (PersonException e) {
-            // Tu s¹ wychwytywane wyj¹tki zg³aszane przez metody klasy Person
-            // gdy nie s¹ spe³nione ograniczenia na³o¿one na dopuszczelne wartoœci
-            // poszczególnych atrybutów.
-            // Drukowanie komunikatu o b³êdzie zg³oszonym za pomoc¹ wyj¹tku PersonException.
-            UI.printErrorMessage(e.getMessage());
-            return null;
-        }
-        return person;
-    }
-
-
-    /*
-     * Metoda pozwala wczytaæ nowe dane dla poszczególnych atrybutów
-     * obiekty person i zmienia je poprzez wywo³anie odpowiednich setterów z klasy Person.
-     * Walidacja poprawnoœci wczyranych danych odbywa siê w setterach
-     * klasy Person. Jeœli zostan¹ wykryte niepoprawne dane
-     * to zostanie zg³oszony wyj¹tek, który zawiera komunikat o b³êdzie.
-     */
-    static void changePersonData(Person person)
-    {
-        while (true) {
-            UI.clearConsole();
-            showPerson(person);
-
-            try {
-                switch (UI.enterInt(CHANGE_MENU + "==>> ")) {
-                    case 1:
-                        person.setFirstName(UI.enterString("Podaj imiê: "));
-                        break;
-                    case 2:
-                        person.setLastName(UI.enterString("Podaj nazwisko: "));
-                        break;
-                    case 3:
-                        person.setBirthYear(UI.enterString("Podaj rok ur.: "));
-                        break;
-                    case 4:
-                        UI.printMessage("Dozwolone stanowiska:" + Arrays.deepToString(PersonJob.values()));
-                        person.setJob(UI.enterString("Podaj stanowisko: "));
-                        break;
-                    case 0: return;
-                }  // koniec instrukcji switch
-            } catch (PersonException e) {
-                // Tu s¹ wychwytywane wyj¹tki zg³aszane przez metody klasy Person
-                // gdy nie s¹ spe³nione ograniczenia na³o¿one na dopuszczelne wartoœci
-                // poszczególnych atrybutów.
-                // Drukowanie komunikatu o b³êdzie zg³oszonym za pomoc¹ wyj¹tku PersonException.
                 UI.printErrorMessage(e.getMessage());
             }
         }

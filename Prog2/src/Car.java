@@ -1,3 +1,5 @@
+import org.omg.CORBA.PERSIST_STORE;
+
 import java.util.Calendar;
 
 
@@ -38,7 +40,7 @@ public class Car {
     private int engineSize;
     private String ownerName;
 
-    public Car(String ownerName,int engineSize,int prodYear) throws CarException {
+    public Car(String ownerName,String engineSize,String prodYear) throws CarException {
         setCarBrand(Brand.OTHER);
         setCarColor(Color.OTHER);
         setProdYear(prodYear);
@@ -54,7 +56,7 @@ public class Car {
         this.carBrand = carBrand;
     }
 
-    public void setBrand(String carBrancString) throws CarException {
+    public void setCarBrand(String carBrancString) throws CarException {
         if (carBrancString == null || carBrancString.equals("")){
             carBrand = Brand.OTHER;
             return;
@@ -72,7 +74,7 @@ public class Car {
         this.carColor = carColor;
     }
 
-    public void setCollor(String colorString) throws CarException {
+    public void setCarColor(String colorString) throws CarException {
         if (colorString == null || colorString.equals("")){
             carColor = Color.OTHER;
             return;
@@ -92,10 +94,34 @@ public class Car {
         this.engineSize = engineSize;
     }
 
+    public void setEngineSize(String engineSize) throws CarException {
+        int _intEngineSize;
+        if ((engineSize == null) || engineSize.equals(""))
+            throw new CarException("Pole pojemność silnika musi być wypełnione.");
+        try {
+            _intEngineSize = Integer.parseInt(engineSize);
+        } catch (NumberFormatException e) {
+            throw new CarException("Rok produkcji musi być liczbą");
+        }
+        setProdYear(_intEngineSize);
+    }
+
     public void setProdYear(int prodYear) throws CarException{
         if (prodYear<1900 || prodYear>Calendar.getInstance().get(Calendar.YEAR))
             throw new CarException("Nieprawidłowa data, lub zła data ustawiona na urządzeniu.");
         this.prodYear = prodYear;
+    }
+
+    public void setProdYear(String prodYear) throws CarException{
+        int _intProdYear;
+        if ((prodYear == null) || prodYear.equals(""))
+            throw new CarException("Pole rok produkcji musi być wypełnione.");
+        try {
+            _intProdYear = Integer.parseInt(prodYear);
+        } catch (NumberFormatException e) {
+            throw new CarException("Rok produkcji musi być liczbą");
+        }
+        setProdYear(_intProdYear);
     }
 
     public void setOwnerName(String ownerName) throws CarException{
