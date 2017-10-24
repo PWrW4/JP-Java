@@ -1,8 +1,3 @@
-import org.omg.CORBA.PERSIST_STORE;
-
-import java.util.Calendar;
-
-
 /*
  *  Program: Operacje na obiektach klasy Car
  *     Plik: Car.java
@@ -35,21 +30,21 @@ enum Color {
 
 public class Car {
     private Brand carBrand;
-    private int prodYear;
+    private int CarProdYear;
     private Color carColor;
     private int engineSize;
     private String ownerName;
 
-    public Car(String ownerName,String engineSize,String prodYear) throws CarException {
+    public Car(String ownerName,String engineSize,String CarProdYear) throws CarException {
         setCarBrand(Brand.OTHER);
         setCarColor(Color.OTHER);
-        setProdYear(prodYear);
+        setProdYear(CarProdYear);
         setOwnerName(ownerName);
         setEngineSize(engineSize);
     }
 
     @Override
-    public String toString(){return carBrand.name() + " " + prodYear + " " + engineSize;}
+    public String toString(){return carBrand.name() + " " + CarProdYear + " " + engineSize;}
 
 
     public void setCarBrand(Brand carBrand) {
@@ -103,25 +98,23 @@ public class Car {
         } catch (NumberFormatException e) {
             throw new CarException("Rok produkcji musi być liczbą");
         }
-        setProdYear(_intEngineSize);
+        setEngineSize(_intEngineSize);
     }
 
-    public void setProdYear(int prodYear) throws CarException{
-        if (prodYear<1900 || prodYear>Calendar.getInstance().get(Calendar.YEAR))
+    public void setCarProdYear(int prodYear) throws CarException{
+        if (prodYear < 1900 || prodYear > 2018/*Calendar.getInstance().get(Calendar.YEAR)*/)
             throw new CarException("Nieprawidłowa data, lub zła data ustawiona na urządzeniu.");
-        this.prodYear = prodYear;
+        this.CarProdYear = prodYear;
     }
 
     public void setProdYear(String prodYear) throws CarException{
-        int _intProdYear;
         if ((prodYear == null) || prodYear.equals(""))
             throw new CarException("Pole rok produkcji musi być wypełnione.");
         try {
-            _intProdYear = Integer.parseInt(prodYear);
+            setCarProdYear(Integer.parseInt(prodYear));
         } catch (NumberFormatException e) {
             throw new CarException("Rok produkcji musi być liczbą");
         }
-        setProdYear(_intProdYear);
     }
 
     public void setOwnerName(String ownerName) throws CarException{
@@ -146,8 +139,8 @@ public class Car {
         return engineSize;
     }
 
-    public int getProdYear() {
-        return prodYear;
+    public int getCarProdYear() {
+        return CarProdYear;
     }
 }
 
