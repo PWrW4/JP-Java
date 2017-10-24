@@ -21,7 +21,7 @@ enum Brand {
      SEAT
 }
 
-enum Color {
+enum CColor {
     OTHER,
     BLACK,
     SILVER,
@@ -33,20 +33,20 @@ enum Color {
 public class Car {
     private Brand carBrand;
     private int carProdYear;
-    private Color carColor;
+    private CColor carCColor;
     private int carEngineSize;
     private String carOwnerName;
 
-    public Car(String carOwnerName, String carEngineSize, String CarProdYear) throws CarException {
+    public Car(String carOwnerName, String carEngineSize, String carProdYear) throws CarException {
         setCarBrand(Brand.OTHER);
-        setCarColor(Color.OTHER);
-        setProdYear(CarProdYear);
+        setCarCColor(CColor.OTHER);
+        setCarProdYear(carProdYear);
         setCarOwnerName(carOwnerName);
-        setEngineSize(carEngineSize);
+        setCarEngineSize(carEngineSize);
     }
 
     @Override
-    public String toString(){return carBrand.name() + " " + carColor.name() + " " + carProdYear + " " + carEngineSize;}
+    public String toString(){return carBrand.name() + " " + carCColor.name() + " " + carProdYear + " " + carEngineSize;}
 
 
     public void setCarBrand(Brand carBrand) {
@@ -67,18 +67,18 @@ public class Car {
         throw new CarException("Nie ma takiej marki");
     }
 
-    public void setCarColor(Color carColor) {
-        this.carColor = carColor;
+    public void setCarCColor(CColor carCColor) {
+        this.carCColor = carCColor;
     }
 
     public void setCarColor(String colorString) throws CarException {
         if (colorString == null || colorString.equals("")){
-            carColor = Color.OTHER;
+            carCColor = CColor.OTHER;
             return;
         }
-        for (Color color : Color.values()){
-            if (colorString.equals(color.name())){
-                carColor = color;
+        for (CColor CColor : CColor.values()){
+            if (colorString.equals(CColor.name())){
+                carCColor = CColor;
                 return;
             }
         }
@@ -91,7 +91,7 @@ public class Car {
         this.carEngineSize = carEngineSize;
     }
 
-    public void setEngineSize(String engineSize) throws CarException {
+    public void setCarEngineSize(String engineSize) throws CarException {
         int _intEngineSize;
         if ((engineSize == null) || engineSize.equals(""))
             throw new CarException("Pole pojemność silnika musi być wypełnione.");
@@ -109,7 +109,7 @@ public class Car {
         this.carProdYear = prodYear;
     }
 
-    public void setProdYear(String prodYear) throws CarException{
+    public void setCarProdYear(String prodYear) throws CarException{
         if ((prodYear == null) || prodYear.equals(""))
             throw new CarException("Pole rok produkcji musi być wypełnione.");
         try {
@@ -133,9 +133,7 @@ public class Car {
         return carBrand;
     }
 
-    public Color getCollor() {
-        return carColor;
-    }
+    public CColor getCarCColor() { return carCColor;    }
 
     public int getCarEngineSize() {
         return carEngineSize;
@@ -147,7 +145,7 @@ public class Car {
 
 
     public static void printToFile(PrintWriter writer, Car carToWrite){
-        writer.println(carToWrite.carBrand + "#" + carToWrite.carColor +
+        writer.println(carToWrite.carBrand + "#" + carToWrite.carCColor +
                 "#" + carToWrite.carEngineSize + "#" + carToWrite.carProdYear + "#" + carToWrite.carOwnerName);
     }
 

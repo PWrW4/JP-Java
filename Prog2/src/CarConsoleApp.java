@@ -41,7 +41,7 @@ public class CarConsoleApp {
             sb.append("        Dane auta: \n");
             sb.append("           Marka: " + car.getCarBrand().name() + "\n");
             sb.append("         Rocznik: " + car.getCarProdYear() + "\n");
-            sb.append("           Kolor: " + car.getCollor().name() + "\n");
+            sb.append("           Kolor: " + car.getCarCColor().name() + "\n");
             sb.append("       Pojemność: " + car.getCarEngineSize() + "\n");
             sb.append("Imię właściciela: " + car.getCarOwnerName() + "\n");
         } else {
@@ -56,7 +56,7 @@ public class CarConsoleApp {
         String _brand = UI.enterString("Podaj markę auta: ");
         String _prodYear = UI.enterString("Podaj rok produkcji: ");
         String _engineSize = UI.enterString("Podaj wielkość silnika w cm3: ");
-        UI.printMessage("Dozwolone kolory:" + Arrays.deepToString(Color.values()));
+        UI.printMessage("Dozwolone kolory:" + Arrays.deepToString(CColor.values()));
         String _color = UI.enterString("Podaj kolor: ");
         String _ownerName = UI.enterString("Podaj imie i nazwisko właściciela");
         Car car;
@@ -85,14 +85,14 @@ public class CarConsoleApp {
                         carToEdit.setCarBrand(UI.enterString("Marka: "));
                         break;
                     case 2:
-                        carToEdit.setProdYear(UI.enterString("Rocznik: "));
+                        carToEdit.setCarProdYear(UI.enterString("Rocznik: "));
                         break;
                     case 3:
-                        UI.printMessage("Dozwolone stanowiska:" + Arrays.deepToString(Color.values()));
+                        UI.printMessage("Dozwolone stanowiska:" + Arrays.deepToString(CColor.values()));
                         carToEdit.setCarColor(UI.enterString("Kolor: "));
                         break;
                     case 4:
-                        carToEdit.setEngineSize(UI.enterString("Pojemność: "));
+                        carToEdit.setCarEngineSize(UI.enterString("Pojemność: "));
                         break;
                     case  5:
                         carToEdit.setCarOwnerName(UI.enterString("Imię właściciela: "));
