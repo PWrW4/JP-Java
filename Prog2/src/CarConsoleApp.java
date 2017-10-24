@@ -42,8 +42,8 @@ public class CarConsoleApp {
             sb.append("           Marka: " + car.getCarBrand().name() + "\n");
             sb.append("         Rocznik: " + car.getCarProdYear() + "\n");
             sb.append("           Kolor: " + car.getCollor().name() + "\n");
-            sb.append("       Pojemność: " + car.getEngineSize() + "\n");
-            sb.append("Imię właściciela: " + car.getOwnerName() + "\n");
+            sb.append("       Pojemność: " + car.getCarEngineSize() + "\n");
+            sb.append("Imię właściciela: " + car.getCarOwnerName() + "\n");
         } else {
             sb.append("Brak danych" + "\n");
         }
@@ -95,7 +95,7 @@ public class CarConsoleApp {
                         carToEdit.setEngineSize(UI.enterString("Pojemność: "));
                         break;
                     case  5:
-                        carToEdit.setOwnerName(UI.enterString("Imię właściciela: "));
+                        carToEdit.setCarOwnerName(UI.enterString("Imię właściciela: "));
                     case 0:
                         return;
                 }
