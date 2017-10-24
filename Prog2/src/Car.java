@@ -7,6 +7,8 @@
  *
  *    Autor: Wojciech Wójcik
  *     Data:  21 pazdziernik 2017 r.
+ *
+ *     Prog2 on Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 
 

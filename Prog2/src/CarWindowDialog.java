@@ -14,17 +14,13 @@ import javax.swing.JTextField;
 
 /*
  * Program: Aplikacja okienkowa z GUI, która umożliwia testowanie
- *          operacji wykonywanych na obiektach klasy Person.
- *    Plik: PersonWindowDialog.java
+ *          operacji wykonywanych na obiektach klasy Car.
+ *    Plik: CarWindowDialog.java
  *
  *   Autor: Wojciech Wójcik na podstawie programu Paweł Rogaliński
  *    Data: 24.10.2017 r.
  *
- *
- *
- * Klasa PersonWindowDialog implementuje pomocnicze okna dialogowe
- * umożliwiające utworzenie i wypełnienie danymi nowego obiektu klasy Car
- * oraz modyfikację danych dla istniejącego obiektu klasy Car.
+ *   Prog2 on Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 public class CarWindowDialog extends JDialog implements ActionListener {
 

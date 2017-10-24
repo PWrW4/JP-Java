@@ -1,5 +1,18 @@
 import java.util.Arrays;
 
+/*
+ *  Program: Konsolowa apkikacja do klasy Car.java
+ *     Plik: CarConsoleApp.java
+ *           definicja typu wyliczeniowego Brand, Color
+ *
+ *    Autor: Wojciech Wójcik
+ *     Data:  21 pazdziernik 2017 r.
+ *
+ *    Prog2 on Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
+ */
+
+
+
 public class CarConsoleApp {
 
     private static final String GREETING_MESSAGE =

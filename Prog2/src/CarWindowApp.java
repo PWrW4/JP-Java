@@ -15,6 +15,8 @@ import javax.swing.JTextField;
  *
  *   Autor: Wojciech Wójcik na podstawie programu Paweł Rogaliński
  *    Data: 24.10.2017 r.
+ *
+ *    Prog2 on Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 public class CarWindowApp extends JFrame implements ActionListener {
 
@@ -31,17 +33,6 @@ public class CarWindowApp extends JFrame implements ActionListener {
         // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
         // główne okno aplikacji.
         new CarWindowApp();
-
-        // UWAGA: można utworzyć kilka okien aplikacji.
-        // Wsystkie okna będą wyświetlone w tym samum miejscu na pulpicie.
-        // Po uruchomieniu kilku okien należy je ręcznie porozsuwać.
-        // Każde okno działa niezależnie od pozostałych.
-        // Aplikacja kończy swoje działanie po zamknięciu wszystkich utworzonych okien
-        // lub po naciśnięciu przycisku "Zakończ aplikację",
-        //
-        // Jeżeli chcesz wypróbować działanie kilku okien odkomentój poniższe linie
-        // new PersonWindowApp();
-        // new PersonWindowApp();
     }
 
 
@@ -156,12 +147,7 @@ public class CarWindowApp extends JFrame implements ActionListener {
         // Wypełnienie pól tekstowych danymi aktualnej osoby.
         showCurrentPerson();
 
-        // Pokazanie na ekranie głównego okna aplikacji
-        // UWAGA: Tą instrukcję należy wykonać jako ostatnią
-        // po zainicjowaniu i rozmieszczeniu na panelu
-        // wszystkich komponentów GUI.
-        // Od tego momentu aplikacja uruchamia główną pętlę zdarzeń
-        // która działa w nowym wątku niezależnie od pozostałej części programu.
+        // Pokazanie tego co "narysowaliśmy"
         setVisible(true);
     }
 
@@ -187,13 +173,6 @@ public class CarWindowApp extends JFrame implements ActionListener {
     }
 
 
-    /*
-     * Implementacja interfejsu ActionListener.
-     *
-     * Metoda actionPerformrd bedzie automatycznie wywoływana
-     * do obsługi wszystkich zdarzeń od obiektów, którym jako słuchacza zdarzeń
-     * dołączono obiekt reprezentujący bieżącą instancję okna aplikacji (referencja this)
-     */
     @Override
     public void actionPerformed(ActionEvent event) {
         // Odczytanie referencji do obiektu, który wygenerował zdarzenie.
@@ -240,4 +219,4 @@ public class CarWindowApp extends JFrame implements ActionListener {
     }
 
 
-} // koniec klasy PersonWindowApp
+}
