@@ -30,11 +30,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /*
- * Program: Aplikacja okienkowa z GUI, kt�ra umo�liwia 
- *          zarz�dzanie grupami obiekt�w klasy Person.
+ * Program: Aplikacja okienkowa z GUI, która umożliwia 
+ *          zarządzanie grupami obiektów klasy Person.
  *    Plik: GroupManagerApp.java
  *          
- *   Autor: Pawe� Rogalinski
+ *   Autor: Paweł Rogalinski
  *    Data: pazdziernik 2017 r.
  */
 
@@ -43,18 +43,18 @@ public class GroupManagerApp extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     private static final String GREETING_MESSAGE =
-            "Program do zarz�dzania grupami os�b " +
+            "Program do zarządzania grupami osób " +
                     "- wersja okienkowa\n\n" +
-                    "Autor: Pawe� Rogalinski\n" +
-                    "Data:  pa�dziernik 2017 r.\n";
+                    "Autor: Paweł Rogalinski\n" +
+                    "Data:  październik 2017 r.\n";
 
-    // Nazwa pliku w kt�rym s� zapisywane automatycznie dane przy
-    // zamykaniu aplikacji i z kt�rego s� czytane dane po uruchomieniu.
+    // Nazwa pliku w którym są zapisywane automatycznie dane przy
+    // zamykaniu aplikacji i z którego są czytane dane po uruchomieniu.
     private static final String ALL_GROUPS_FILE = "LISTA_GRUP.BIN";
 
-    // Utworzenie obiektu reprezentuj�cego g��wne okno aplikacji.
-    // Po utworzeniu obiektu na pulpicie zostanie wy�wietlone
-    // g��wne okno aplikacji.
+    // Utworzenie obiektu reprezentującego główne okno aplikacji.
+    // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
+    // główne okno aplikacji.
     public static void main(String[] args) {
         new GroupManagerApp();
     }
@@ -64,18 +64,18 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
         @Override
         public void windowClosed(WindowEvent e) {
-            // Wywo�ywane gdy okno aplikacji jest zamykane za pomoc�
-            // wywo�ania metody dispose()
+            // Wywoływane gdy okno aplikacji jest zamykane za pomocą
+            // wywołania metody dispose()
 
-            JOptionPane.showMessageDialog(null, "Program zako�czy� dzia�anie!");
+            JOptionPane.showMessageDialog(null, "Program zakończył działanie!");
 
         }
 
 
         @Override
         public void windowClosing(WindowEvent e) {
-            // Wywo�ywane gdy okno aplikacji jest  zamykane za pomoc�
-            // systemowego menu okna tzn. krzy�yk w naro�niku)
+            // Wywoływane gdy okno aplikacji jest  zamykane za pomocą
+            // systemowego menu okna tzn. krzyżyk w narożniku)
             windowClosed(e);
         }
 
@@ -83,92 +83,92 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
 
 
-    // Zbi�r grup os�b, kt�rymi zarz�dza aplikacja
+    // Zbiór grup osób, którymi zarządza aplikacja
     private List<GroupOfPeople> currentList = new ArrayList<GroupOfPeople>();
 
-    // Pasek menu wy�wietlany na panelu w g��wnym oknie aplikacji
+    // Pasek menu wyświetlany na panelu w głównym oknie aplikacji
     JMenuBar menuBar        = new JMenuBar();
     JMenu menuGroups        = new JMenu("Grupy");
     JMenu menuSpecialGroups = new JMenu("Grupy specjalne");
     JMenu menuAbout         = new JMenu("O programie");
 
-    // Opcje wy�wietlane na panelu w g��wnym oknie aplikacji
-    JMenuItem menuNewGroup           = new JMenuItem("Utw�rz grup�");
-    JMenuItem menuEditGroup          = new JMenuItem("Edytuj grup�");
-    JMenuItem menuDeleteGroup        = new JMenuItem("Usu� grup�");
-    JMenuItem menuLoadGroup          = new JMenuItem("za�aduj grup� z pliku");
-    JMenuItem menuSaveGroup          = new JMenuItem("Zapisz grup� do pliku");
+    // Opcje wyświetlane na panelu w głównym oknie aplikacji
+    JMenuItem menuNewGroup           = new JMenuItem("Utwórz grupę");
+    JMenuItem menuEditGroup          = new JMenuItem("Edytuj grupę");
+    JMenuItem menuDeleteGroup        = new JMenuItem("Usuń grupę");
+    JMenuItem menuLoadGroup          = new JMenuItem("załaduj grupę z pliku");
+    JMenuItem menuSaveGroup          = new JMenuItem("Zapisz grupę do pliku");
 
-    JMenuItem menuGroupUnion         = new JMenuItem("Po��czenie grup");
-    JMenuItem menuGroupIntersection  = new JMenuItem("Cz�� wsp�lna grup");
-    JMenuItem menuGroupDifference    = new JMenuItem("R�nica grup");
-    JMenuItem menuGroupSymmetricDiff = new JMenuItem("R�nica symetryczna grup");
+    JMenuItem menuGroupUnion         = new JMenuItem("Połączenie grup");
+    JMenuItem menuGroupIntersection  = new JMenuItem("Część wspólna grup");
+    JMenuItem menuGroupDifference    = new JMenuItem("Różnica grup");
+    JMenuItem menuGroupSymmetricDiff = new JMenuItem("Różnica symetryczna grup");
 
     JMenuItem menuAuthor             = new JMenuItem("Autor");
 
-    // Przyciski wy�wietlane na panelu w g��wnym oknie aplikacji
-    JButton buttonNewGroup = new JButton("Utw�rz");
+    // Przyciski wyświetlane na panelu w głównym oknie aplikacji
+    JButton buttonNewGroup = new JButton("Utwórz");
     JButton buttonEditGroup = new JButton("Edytuj");
-    JButton buttonDeleteGroup = new JButton(" Unu� ");
-    JButton buttonLoadGroup = new JButton("Otw�rz");
+    JButton buttonDeleteGroup = new JButton(" Unuń ");
+    JButton buttonLoadGroup = new JButton("Otwórz");
     JButton buttonSavegroup = new JButton("Zapisz");
 
     JButton buttonUnion = new JButton("Suma");
     JButton buttonIntersection = new JButton("Iloczyn");
-    JButton buttonDifference = new JButton("R�nica");
-    JButton buttonSymmetricDiff = new JButton("R�nica symetryczna");
+    JButton buttonDifference = new JButton("Różnica");
+    JButton buttonSymmetricDiff = new JButton("Różnica symetryczna");
 
 
-    // Widok tabeli z list� grup wy�wietlany
-    // na panelu w oknie g��wnym aplikacji
+    // Widok tabeli z listą grup wyświetlany
+    // na panelu w oknie głównym aplikacji
     ViewGroupList viewList;
 
 
     public GroupManagerApp() {
-        // Konfiguracja parametr�w g��wnego okna aplikacji
-        setTitle("GroupManager - zarz�dzanie grupami os�b");
+        // Konfiguracja parametrów głównego okna aplikacji
+        setTitle("GroupManager - zarządzanie grupami osób");
         setSize(450, 400);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Dodanie s�uchacza zdarze� od okna aplikacji, kt�ry
-        // umo�liwi automatyczny zapis danych do pliku,
-        // gdy g��wne okno aplikacji jest zamykane.
+        // Dodanie słuchacza zdarzeń od okna aplikacji, który
+        // umożliwi automatyczny zapis danych do pliku,
+        // gdy główne okno aplikacji jest zamykane.
         addWindowListener(new WindowAdapter() {
                               // To jest definicja anonimowej klasy (klasy bez nazwy)
-                              // kt�ra dziedziczy po klasie WindowAdapter i przedefiniowuje
+                              // która dziedziczy po klasie WindowAdapter i przedefiniowuje
                               // metody windowClosed oraz windowClosing.
 
                               @Override
                               public void windowClosed(WindowEvent event) {
-                                  // Wywo�ywane gdy okno aplikacji jest zamykane za pomoc�
-                                  // wywo�ania metody dispose()
+                                  // Wywoływane gdy okno aplikacji jest zamykane za pomocą
+                                  // wywołania metody dispose()
                                   try {
                                       saveGroupListToFile(ALL_GROUPS_FILE);
-                                      JOptionPane.showMessageDialog(null, "Dane zosta�y zapisane do pliku " + ALL_GROUPS_FILE);
+                                      JOptionPane.showMessageDialog(null, "Dane zostały zapisane do pliku " + ALL_GROUPS_FILE);
                                   } catch (PersonException e) {
-                                      JOptionPane.showMessageDialog(null, e.getMessage(), "B��d", JOptionPane.ERROR_MESSAGE);
+                                      JOptionPane.showMessageDialog(null, e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
                                   }
                               }
 
                               @Override
                               public void windowClosing(WindowEvent e) {
-                                  // Wywo�ywane gdy okno aplikacji jest zamykane za pomoc�
-                                  // systemowego menu okna tzn. krzy�yk w naro�niku)
+                                  // Wywoływane gdy okno aplikacji jest zamykane za pomocą
+                                  // systemowego menu okna tzn. krzyżyk w narożniku)
                                   windowClosed(e);
                               }
 
                           } // koniec klasy anonimowej
-        ); // koniec wywo�ania metody addWindowListener
+        ); // koniec wywołania metody addWindowListener
 
         try {
-            // Automatyczne za�adowanie danych z pliku zanim
-            // g��wne okno aplikacji zostanie pokazane na ekranie
+            // Automatyczne załadowanie danych z pliku zanim
+            // główne okno aplikacji zostanie pokazane na ekranie
             loadGroupListFromFile(ALL_GROUPS_FILE);
-            JOptionPane.showMessageDialog(null, "Dane zosta�y wczytane z pliku " + ALL_GROUPS_FILE);
+            JOptionPane.showMessageDialog(null, "Dane zostały wczytane z pliku " + ALL_GROUPS_FILE);
         } catch (PersonException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "B��d", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -192,10 +192,10 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
         menuAbout.add(menuAuthor);
 
-        // Dodanie s�uchaczy zdarze� do wszystkich opcji menu.
-        // UWAGA: s�uchaczem zdarze� b�dzie metoda actionPerformed
-        // zaimplementowana w tej klasie i wywo�ana dla
-        // bie��cej instancji okna aplikacji - referencja this
+        // Dodanie słuchaczy zdarzeń do wszystkich opcji menu.
+        // UWAGA: słuchaczem zdarzeń będzie metoda actionPerformed
+        // zaimplementowana w tej klasie i wywołana dla
+        // bieżącej instancji okna aplikacji - referencja this
         menuNewGroup.addActionListener(this);
         menuEditGroup.addActionListener(this);
         menuDeleteGroup.addActionListener(this);
@@ -207,10 +207,10 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         menuGroupSymmetricDiff.addActionListener(this);
         menuAuthor.addActionListener(this);
 
-        // Dodanie s�uchaczy zdarze� do wszystkich przycisk�w.
-        // UWAGA: s�uchaczem zdarze� b�dzie metoda actionPerformed
-        // zaimplementowana w tej klasie i wywo�ana dla
-        // bie��cej instancji okna aplikacji - referencja this
+        // Dodanie słuchaczy zdarzeń do wszystkich przycisków.
+        // UWAGA: słuchaczem zdarzeń będzie metoda actionPerformed
+        // zaimplementowana w tej klasie i wywołana dla
+        // bieżącej instancji okna aplikacji - referencja this
         buttonNewGroup.addActionListener(this);
         buttonEditGroup.addActionListener(this);
         buttonDeleteGroup.addActionListener(this);
@@ -221,17 +221,17 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         buttonDifference.addActionListener(this);
         buttonSymmetricDiff.addActionListener(this);
 
-        // Utwotrzenie tabeli z list� os�b nale��cych do grupy
+        // Utwotrzenie tabeli z listą osób należących do grupy
         viewList = new ViewGroupList(currentList, 400, 250);
         viewList.refreshView();
 
-        // Utworzenie g��wnego panelu okna aplikacji.
-        // Domy�lnym mened�erem rozk�adu dla panelu b�dzie
-        // FlowLayout, kt�ry uk�ada wszystkie komponenty jeden za drugim.
+        // Utworzenie głównego panelu okna aplikacji.
+        // Domyślnym menedżerem rozkładu dla panelu będzie
+        // FlowLayout, który układa wszystkie komponenty jeden za drugim.
         JPanel panel = new JPanel();
 
         // Dodanie i rozmieszczenie na panelu wszystkich
-        // komponent�w GUI.
+        // komponentów GUI.
         panel.add(viewList);
         panel.add(buttonNewGroup);
         panel.add(buttonEditGroup);
@@ -243,15 +243,15 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         panel.add(buttonDifference);
         panel.add(buttonSymmetricDiff);
 
-        // Umieszczenie Panelu w g��wnym oknie aplikacji.
+        // Umieszczenie Panelu w głównym oknie aplikacji.
         setContentPane(panel);
 
-        // Pokazanie na ekranie g��wnego okna aplikacji
-        // UWAGA: T� instrukcj� nale�y wykona� jako ostatni�
+        // Pokazanie na ekranie głównego okna aplikacji
+        // UWAGA: Tą instrukcję należy wykonać jako ostatnią
         // po zainicjowaniu i rozmieszczeniu na panelu
-        // wszystkich komponent�w GUI.
-        // Od tego momentu aplikacja uruchamia g��wn� p�tl� zdarze�
-        // kt�ra dzia�a w nowym w�tku niezale�nie od pozosta�ej cz�ci programu.
+        // wszystkich komponentów GUI.
+        // Od tego momentu aplikacja uruchamia główną pętlę zdarzeń
+        // która działa w nowym wątku niezależnie od pozostałej części programu.
         setVisible(true);
     }
 
@@ -264,7 +264,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         } catch (FileNotFoundException e) {
             throw new PersonException("Nie odnaleziono pliku " + file_name);
         } catch (Exception e) {
-            throw new PersonException("Wyst�pi� b��d podczas odczytu danych z pliku.");
+            throw new PersonException("Wystąpił błąd podczas odczytu danych z pliku.");
         }
     }
 
@@ -275,7 +275,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         } catch (FileNotFoundException e) {
             throw new PersonException("Nie odnaleziono pliku " + file_name);
         } catch (IOException e) {
-            throw new PersonException("Wyst�pi� b��d podczas zapisu danych do pliku.");
+            throw new PersonException("Wystąpił błąd podczas zapisu danych do pliku.");
         }
     }
 
@@ -286,7 +286,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         Object[] groups = currentList.toArray();
         GroupOfPeople group = (GroupOfPeople)JOptionPane.showInputDialog(
                 parent, message,
-                "Wybierz grup�",
+                "Wybierz grupę",
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 groups,
@@ -298,7 +298,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        // Odczytanie referencji do obiektu, kt�ry wygenerowa� zdarzenie.
+        // Odczytanie referencji do obiektu, który wygenerował zdarzenie.
         Object source = event.getSource();
 
         try {
@@ -357,14 +357,14 @@ public class GroupManagerApp extends JFrame implements ActionListener {
             if (source == menuGroupUnion || source == buttonUnion) {
                 String message1 =
                         "SUMA GRUP\n\n" +
-                                "Tworzenie grupy zawieraj�cej wszystkie osoby z grupy pierwszej\n" +
+                                "Tworzenie grupy zawierającej wszystkie osoby z grupy pierwszej\n" +
                                 "oraz wszystkie osoby z grupy drugiej.\n" +
-                                "Wybierz pierwsz� grup�:";
+                                "Wybierz pierwszą grupę:";
                 String message2 =
                         "SUMA GRUP\n\n" +
-                                "Tworzenie grupy zawieraj�cej wszystkie osoby z grupy pierwszej\n" +
+                                "Tworzenie grupy zawierającej wszystkie osoby z grupy pierwszej\n" +
                                 "oraz wszystkie osoby z grupy drugiej.\n" +
-                                "Wybierz drug� grup�:";
+                                "Wybierz drugą grupę:";
                 GroupOfPeople group1 = chooseGroup(this, message1);
                 if (group1 == null)
                     return;
@@ -377,14 +377,14 @@ public class GroupManagerApp extends JFrame implements ActionListener {
             if (source == menuGroupIntersection || source == buttonIntersection) {
                 String message1 =
                         "ILOCZYN GRUP\n\n" +
-                                "Tworzenie grupy os�b, kt�re nale�� zar�wno do grupy pierwszej,\n" +
+                                "Tworzenie grupy osób, które należą zarówno do grupy pierwszej,\n" +
                                 "jak i do grupy drugiej.\n" +
-                                "Wybierz pierwsz� grup�:";
+                                "Wybierz pierwszą grupę:";
                 String message2 =
                         "ILOCZYN GRUP\n\n" +
-                                "Tworzenie grupy os�b, kt�re nale�� zar�wno do grupy pierwszej,\n" +
+                                "Tworzenie grupy osób, które należą zarówno do grupy pierwszej,\n" +
                                 "jak i do grupy drugiej.\n" +
-                                "Wybierz drug� grup�:";
+                                "Wybierz drugą grupę:";
                 GroupOfPeople group1 = chooseGroup(this, message1);
                 if (group1 == null)
                     return;
@@ -396,15 +396,15 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
             if (source == menuGroupDifference || source == buttonDifference) {
                 String message1 =
-                        "RӯNICA GRUP\n\n" +
-                                "Tworzenie grupy os�b, kt�re nale�� do grupy pierwszej\n" +
+                        "RÓŻNICA GRUP\n\n" +
+                                "Tworzenie grupy osób, które należą do grupy pierwszej\n" +
                                 "i nie ma ich w grupie drugiej.\n" +
-                                "Wybierz pierwsz� grup�:";
+                                "Wybierz pierwszą grupę:";
                 String message2 =
-                        "RӯNICA GRUP\n\n" +
-                                "Tworzenie grupy os�b, kt�re nale�� do grupy pierwszej\n" +
+                        "RÓŻNICA GRUP\n\n" +
+                                "Tworzenie grupy osób, które należą do grupy pierwszej\n" +
                                 "i nie ma ich w grupie drugiej.\n" +
-                                "Wybierz drug� grup�:";
+                                "Wybierz drugą grupę:";
                 GroupOfPeople group1 = chooseGroup(this, message1);
                 if (group1 == null)
                     return;
@@ -415,12 +415,12 @@ public class GroupManagerApp extends JFrame implements ActionListener {
             }
 
             if (source == menuGroupSymmetricDiff || source == buttonSymmetricDiff) {
-                String message1 = "RӯNICA SYMETRYCZNA GRUP\n\n"
-                        + "Tworzenie grupy zawieraj�cej osoby nale��ce tylko do jednej z dw�ch grup,\n"
-                        + "Wybierz pierwsz� grup�:";
-                String message2 = "RӯNICA SYMETRYCZNA GRUP\n\n"
-                        + "Tworzenie grupy zawieraj�cej osoby nale��ce tylko do jednej z dw�ch grup,\n"
-                        + "Wybierz drug� grup�:";
+                String message1 = "RÓŻNICA SYMETRYCZNA GRUP\n\n"
+                        + "Tworzenie grupy zawierającej osoby należące tylko do jednej z dwóch grup,\n"
+                        + "Wybierz pierwszą grupę:";
+                String message2 = "RÓŻNICA SYMETRYCZNA GRUP\n\n"
+                        + "Tworzenie grupy zawierającej osoby należące tylko do jednej z dwóch grup,\n"
+                        + "Wybierz drugą grupę:";
                 GroupOfPeople group1 = chooseGroup(this, message1);
                 if (group1 == null)
                     return;
@@ -435,10 +435,10 @@ public class GroupManagerApp extends JFrame implements ActionListener {
             }
 
         } catch (PersonException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "B��d", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Aktualizacja zawarto�ci tabeli z list� grup.
+        // Aktualizacja zawartości tabeli z listą grup.
         viewList.refreshView();
     }
 
@@ -447,8 +447,8 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
 
 /*
- * Pomocnicza klasa do wy�wietlania listy grup
- * w postaci tabeli na panelu okna g��wnego
+ * Pomocnicza klasa do wyświetlania listy grup
+ * w postaci tabeli na panelu okna głównego
  */
 class ViewGroupList extends JScrollPane {
     private static final long serialVersionUID = 1L;
@@ -462,7 +462,7 @@ class ViewGroupList extends JScrollPane {
         setPreferredSize(new Dimension(width, height));
         setBorder(BorderFactory.createTitledBorder("Lista grup:"));
 
-        String[] tableHeader = { "Nazwa grupy", "Typ kolekcji", "Liczba os�b" };
+        String[] tableHeader = { "Nazwa grupy", "Typ kolekcji", "Liczba osób" };
         tableModel = new DefaultTableModel(tableHeader, 0);
         table = new JTable(tableModel) {
 
@@ -470,7 +470,7 @@ class ViewGroupList extends JScrollPane {
 
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
-                return false; // Blokada mo�liwo�ci edycji kom�rek tabeli
+                return false; // Blokada możliwości edycji komórek tabeli
             }
         };
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -491,7 +491,7 @@ class ViewGroupList extends JScrollPane {
     int getSelectedIndex(){
         int index = table.getSelectedRow();
         if (index<0) {
-            JOptionPane.showMessageDialog(this, "�adana grupa nie jest zaznaczona.", "B��d", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Żadana grupa nie jest zaznaczona.", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
         return index;
     }
