@@ -71,7 +71,7 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
 
     public GroupOfCars(GroupType type, String name) throws CarException {
         setName(name);
-        if (type==null){
+        if (type == null) {
             throw new CarException("Nieprawidłowy typ kolekcji.");
         }
         this.type = type;
@@ -82,7 +82,7 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
     public GroupOfCars(String type_name, String name) throws CarException {
         setName(name);
         GroupType type = GroupType.find(type_name);
-        if (type==null){
+        if (type == null) {
             throw new CarException("Nieprawidłowy typ kolekcji.");
         }
         this.type = type;
@@ -126,7 +126,7 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
 
 
     public void setType(String type_name) throws CarException {
-        for(GroupType type : GroupType.values()){
+        for (GroupType type : GroupType.values()) {
             if (type.toString().equals(type_name)) {
                 setType(type);
                 return;
@@ -191,7 +191,7 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         });
     }
 
-        public void sortBrand() throws CarException {
+    public void sortBrand() throws CarException {
         if (type == GroupType.HASH_SET || type == GroupType.TREE_SET) {
             throw new CarException("Kolekcje typu SET nie mogą być sortowane.");
         }
@@ -254,23 +254,23 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
     public static void printToFile(String file_name, GroupOfCars group) throws CarException {
         try (PrintWriter writer = new PrintWriter(file_name)) {
             printToFile(writer, group);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new CarException("Nie odnaleziono pliku " + file_name);
         }
     }
 
 
-    public static GroupOfCars readFromFile(BufferedReader reader) throws CarException{
+    public static GroupOfCars readFromFile(BufferedReader reader) throws CarException {
         try {
             String group_name = reader.readLine();
             String type_name = reader.readLine();
             GroupOfCars groupOfPeople = new GroupOfCars(type_name, group_name);
 
             Car person;
-            while((person = Car.readFromFile(reader)) != null)
+            while ((person = Car.readFromFile(reader)) != null)
                 groupOfPeople.collection.add(person);
             return groupOfPeople;
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
         }
     }
@@ -279,9 +279,9 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
     public static GroupOfCars readFromFile(String file_name) throws CarException {
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(file_name)))) {
             return GroupOfCars.readFromFile(reader);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new CarException("Nie odnaleziono pliku " + file_name);
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
         }
     }
@@ -335,10 +335,10 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
     //##################################################################################
     //##################################################################################
 
-    public static GroupOfCars createGroupUnion(GroupOfCars g1,GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " OR " + g2.name +")";
+    public static GroupOfCars createGroupUnion(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " OR " + g2.name + ")";
         GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set) ){
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
             type = g2.type;
         } else {
             type = g1.type;
@@ -349,10 +349,10 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         return group;
     }
 
-    public static GroupOfCars createGroupIntersection(GroupOfCars g1,GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " AND " + g2.name +")";
+    public static GroupOfCars createGroupIntersection(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " AND " + g2.name + ")";
         GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set) ){
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
             type = g2.type;
         } else {
             type = g1.type;
@@ -368,13 +368,22 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         //#                                                                            #
         //##############################################################################
 
+        for (Car c1 : g1) {
+            for (Car c2 : g2) {
+                if (c1.equals(c2)) {
+                    group.add(c1);
+                    break;
+                }
+            }
+        }
+
         return group;
     }
 
-    public static GroupOfCars createGroupDifference(GroupOfCars g1,GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " SUB " + g2.name +")";
+    public static GroupOfCars createGroupDifference(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " SUB " + g2.name + ")";
         GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set) ){
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
             type = g2.type;
         } else {
             type = g1.type;
@@ -389,15 +398,28 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         //#     i nie należą do grupy drugiej;                                         #
         //#                                                                            #
         //##############################################################################
+        boolean add = true;
+
+        for (Car c1 : g1) {
+            for (Car c2 : g2) {
+                if (c1.equals(c2)) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add)
+                group.add(c1);
+            add = true;
+        }
 
         return group;
     }
 
 
-    public static GroupOfCars createGroupSymmetricDiff(GroupOfCars g1,GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " XOR " + g2.name +")";
+    public static GroupOfCars createGroupSymmetricDiff(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " XOR " + g2.name + ")";
         GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set) ){
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
             type = g2.type;
         } else {
             type = g1.type;
@@ -413,6 +435,33 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         //#     lub należą tylko do grupy drugiej;                                     #
         //#                                                                            #
         //##############################################################################
+
+        boolean add = true;
+
+        for (Car c1 : g1) {
+            for (Car c2 : g2) {
+                if (c1.equals(c2)) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add)
+                group.add(c1);
+            add = true;
+        }
+
+
+        for (Car c2 : g2) {
+            for (Car c1 : g1) {
+                if (c1.equals(c1)) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add)
+                group.add(c2);
+            add = true;
+        }
 
         return group;
     }
