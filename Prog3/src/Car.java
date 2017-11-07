@@ -6,21 +6,27 @@
  *           definicja publicznej klasy Car
  *
  *    Autor: Wojciech Wójcik
- *     Data:  21 pazdziernik 2017 r.
+ *     Data:  07 pazdziernik 2017 r.
  *
  *     Prog2 on Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
 enum Brand {
-     OTHER,
-     FORD,
-     MAZDA,
-     HONDA,
-     ALFA_ROMEO,
-     SEAT
+    OTHER,
+    FORD,
+    MAZDA,
+    HONDA,
+    ALFA_ROMEO,
+    SEAT
 }
 
 enum CColor {
@@ -48,7 +54,9 @@ public class Car implements Serializable, Comparable<Car> {
     }
 
     @Override
-    public String toString(){return carBrand.name() + " " + carCColor.name() + " " + carProdYear + " " + carEngineSize + " " + carOwnerName;}
+    public String toString() {
+        return carBrand.name() + " " + carCColor.name() + " " + carProdYear + " " + carEngineSize + " " + carOwnerName;
+    }
 
 
     public void setCarBrand(Brand carBrand) {
@@ -56,12 +64,12 @@ public class Car implements Serializable, Comparable<Car> {
     }
 
     public void setCarBrand(String carBrancString) throws CarException {
-        if (carBrancString == null || carBrancString.equals("")){
+        if (carBrancString == null || carBrancString.equals("")) {
             carBrand = Brand.OTHER;
             return;
         }
-        for (Brand brand : Brand.values()){
-            if (carBrancString.equals(brand.name())){
+        for (Brand brand : Brand.values()) {
+            if (carBrancString.equals(brand.name())) {
                 this.carBrand = brand;
                 return;
             }
@@ -74,12 +82,12 @@ public class Car implements Serializable, Comparable<Car> {
     }
 
     public void setCarColor(String colorString) throws CarException {
-        if (colorString == null || colorString.equals("")){
+        if (colorString == null || colorString.equals("")) {
             carCColor = CColor.OTHER;
             return;
         }
-        for (CColor CColor : CColor.values()){
-            if (colorString.equals(CColor.name())){
+        for (CColor CColor : CColor.values()) {
+            if (colorString.equals(CColor.name())) {
                 carCColor = CColor;
                 return;
             }
@@ -88,7 +96,7 @@ public class Car implements Serializable, Comparable<Car> {
     }
 
     public void setCarEngineSize(int carEngineSize) throws CarException {
-        if (carEngineSize <0)
+        if (carEngineSize < 0)
             throw new CarException("Pojemność silnika musi byc wieksza od 0.");
         this.carEngineSize = carEngineSize;
     }
@@ -105,13 +113,13 @@ public class Car implements Serializable, Comparable<Car> {
         setCarEngineSize(_intEngineSize);
     }
 
-    public void setCarProdYear(int prodYear) throws CarException{
+    public void setCarProdYear(int prodYear) throws CarException {
         if (prodYear < 1900 || prodYear > 2018/*Calendar.getInstance().get(Calendar.YEAR)*/)
             throw new CarException("Nieprawidłowa data, lub zła data ustawiona na urządzeniu.");
         this.carProdYear = prodYear;
     }
 
-    public void setCarProdYear(String prodYear) throws CarException{
+    public void setCarProdYear(String prodYear) throws CarException {
         if ((prodYear == null) || prodYear.equals(""))
             throw new CarException("Pole rok produkcji musi być wypełnione.");
         try {
@@ -121,7 +129,7 @@ public class Car implements Serializable, Comparable<Car> {
         }
     }
 
-    public void setCarOwnerName(String carOwnerName) throws CarException{
+    public void setCarOwnerName(String carOwnerName) throws CarException {
         if ((carOwnerName == null) || carOwnerName.equals(""))
             throw new CarException("Pole <Imię> musi być wypełnione.");
         this.carOwnerName = carOwnerName;
@@ -135,7 +143,9 @@ public class Car implements Serializable, Comparable<Car> {
         return carBrand;
     }
 
-    public CColor getCarCColor() { return carCColor;    }
+    public CColor getCarCColor() {
+        return carCColor;
+    }
 
     public int getCarEngineSize() {
         return carEngineSize;
@@ -146,7 +156,7 @@ public class Car implements Serializable, Comparable<Car> {
     }
 
 
-    public static void printToFile(PrintWriter writer, Car carToWrite){
+    public static void printToFile(PrintWriter writer, Car carToWrite) {
         writer.println(carToWrite.carBrand + "#" + carToWrite.carCColor +
                 "#" + carToWrite.carEngineSize + "#" + carToWrite.carProdYear + "#" + carToWrite.carOwnerName);
     }
@@ -155,20 +165,20 @@ public class Car implements Serializable, Comparable<Car> {
     public static void printToFile(String file_name, Car carToWrite) throws CarException {
         try (PrintWriter writer = new PrintWriter(file_name)) {
             printToFile(writer, carToWrite);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new CarException("Nie odnaleziono pliku " + file_name);
         }
     }
 
-    public static Car readFromFile(BufferedReader reader) throws CarException{
+    public static Car readFromFile(BufferedReader reader) throws CarException {
         try {
             String line = reader.readLine();
             String[] txt = line.split("#");
-            Car _car = new Car(txt[4], txt[2],txt[3]);
+            Car _car = new Car(txt[4], txt[2], txt[3]);
             _car.setCarBrand(txt[0]);
             _car.setCarColor(txt[1]);
             return _car;
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
         }
     }
@@ -176,9 +186,9 @@ public class Car implements Serializable, Comparable<Car> {
     public static Car readFromFile(String file_name) throws CarException {
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(file_name)))) {
             return Car.readFromFile(reader);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new CarException("Nie odnaleziono pliku " + file_name);
-        } catch(IOException e){
+        } catch (IOException e) {
             throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
         }
     }
@@ -190,13 +200,13 @@ public class Car implements Serializable, Comparable<Car> {
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
 
-        if(this == obj)
+        if (this == obj)
             return true;
-        if (obj==null)
+        if (obj == null)
             return false;
-        if (getClass()!= obj.getClass())
+        if (getClass() != obj.getClass())
             return false;
 
         Car otherCar = (Car) obj;
@@ -211,12 +221,13 @@ public class Car implements Serializable, Comparable<Car> {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
+        //tutaj możliwe że trzeba się zaimplementować wyjątki (sprawdzanie czy coś jest nullem)
         return 983 * getCarProdYear() * getCarOwnerName().hashCode() * getCarEngineSize() * getCarBrand().hashCode() * getCarCColor().hashCode();
     }
 }
 
-class CarException extends Exception{
+class CarException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
