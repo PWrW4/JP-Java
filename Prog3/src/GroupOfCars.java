@@ -1,4 +1,3 @@
-
 /*
  *   Plik: GroupOfCars.java
  *
@@ -25,13 +24,6 @@ enum GroupType {
         typeName = type_name;
     }
 
-
-    @Override
-    public String toString() {
-        return typeName;
-    }
-
-
     public static GroupType find(String type_name) {
         for (GroupType type : values()) {
             if (type.typeName.equals(type_name)) {
@@ -41,6 +33,10 @@ enum GroupType {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return typeName;
+    }
 
     public Collection<Car> createCollection() throws CarException {
         switch (this) {
@@ -69,10 +65,6 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
     private GroupType type;
     private Collection<Car> collection;
 
-    public Collection<Car> getCollection() {
-        return collection;
-    }
-
     public GroupOfCars(GroupType type, String name) throws CarException {
         setName(name);
         if (type == null) {
@@ -81,7 +73,6 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         this.type = type;
         collection = this.type.createCollection();
     }
-
 
     public GroupOfCars(String type_name, String name) throws CarException {
         setName(name);
@@ -93,11 +84,189 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         collection = this.type.createCollection();
     }
 
+    public static void printToFile(PrintWriter writer, GroupOfCars group) {
+        writer.println(group.getName());
+        writer.println(group.getType());
+        for (Car person : group.collection)
+            Car.printToFile(writer, person);
+    }
+
+    public static void printToFile(String file_name, GroupOfCars group) throws CarException {
+        try (PrintWriter writer = new PrintWriter(file_name)) {
+            printToFile(writer, group);
+        } catch (FileNotFoundException e) {
+            throw new CarException("Nie odnaleziono pliku " + file_name);
+        }
+    }
+
+    public static GroupOfCars readFromFile(BufferedReader reader) throws CarException {
+        try {
+            String group_name = reader.readLine();
+            String type_name = reader.readLine();
+            GroupOfCars groupOfPeople = new GroupOfCars(type_name, group_name);
+
+            Car person;
+            while ((person = Car.readFromFile(reader)) != null)
+                groupOfPeople.collection.add(person);
+            return groupOfPeople;
+        } catch (IOException e) {
+            throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
+        }
+    }
+
+    public static GroupOfCars readFromFile(String file_name) throws CarException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(file_name)))) {
+            return GroupOfCars.readFromFile(reader);
+        } catch (FileNotFoundException e) {
+            throw new CarException("Nie odnaleziono pliku " + file_name);
+        } catch (IOException e) {
+            throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
+        }
+    }
+
+    public static GroupOfCars createGroupUnion(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " OR " + g2.name + ")";
+        GroupType type;
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
+            type = g2.type;
+        } else {
+            type = g1.type;
+        }
+        GroupOfCars group = new GroupOfCars(type, name);
+        group.collection.addAll(g1.collection);
+        group.collection.addAll(g2.collection);
+        return group;
+    }
+
+    public static GroupOfCars createGroupIntersection(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " AND " + g2.name + ")";
+        GroupType type;
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
+            type = g2.type;
+        } else {
+            type = g1.type;
+        }
+        GroupOfCars group = new GroupOfCars(type, name);
+
+        //##############################################################################
+        //#                                                                            #
+        //# Tu należy dopisać instrukcje które wyznaczą część wspólną dwóch            #
+        //#      grup żródłowych                                                       #
+        //#   Do grupy należy dodać te osoby, które należą zarówno do grupy pierwszej  #
+        //#    jak i do grupy drugiej;                                                 #
+        //#                                                                            #
+        //##############################################################################
+
+        for (Car c1 : g1) {
+            for (Car c2 : g2) {
+                if (c1.equals(c2)) {
+                    group.add(c1);
+                    break;
+                }
+            }
+        }
+
+        return group;
+    }
+
+
+    // Zamiast gettera getCollection zostały zaimplementowane
+    // niezbędne metody delegowane z interfejsu Collection,
+    // które umożliwiają wykonanie wszystkich operacji na
+    // kolekcji osób.
+
+    public static GroupOfCars createGroupDifference(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " SUB " + g2.name + ")";
+        GroupType type;
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
+            type = g2.type;
+        } else {
+            type = g1.type;
+        }
+        GroupOfCars group = new GroupOfCars(type, name);
+
+        //##############################################################################
+        //#                                                                            #
+        //# Tu należy dopisać instrukcje które wyznaczą różnicę dwóch                  #
+        //#      grup żródłowych                                                       #
+        //#   Do grupy należy dodać te osoby, które należą do grupy pierwszej          #
+        //#     i nie należą do grupy drugiej;                                         #
+        //#                                                                            #
+        //##############################################################################
+        boolean add = true;
+
+        for (Car c1 : g1) {
+            for (Car c2 : g2) {
+                if (c1.equals(c2)) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add)
+                group.add(c1);
+            add = true;
+        }
+
+        return group;
+    }
+
+    public static GroupOfCars createGroupSymmetricDiff(GroupOfCars g1, GroupOfCars g2) throws CarException {
+        String name = "(" + g1.name + " XOR " + g2.name + ")";
+        GroupType type;
+        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
+            type = g2.type;
+        } else {
+            type = g1.type;
+        }
+
+        GroupOfCars group = new GroupOfCars(type, name);
+
+        //##############################################################################
+        //#                                                                            #
+        //# Tu należy dopisać instrukcje które wyznaczą różnicę symetryczną dwóch      #
+        //#      grup żródłowych                                                       #
+        //#   Do grupy należy dodać te osoby, które należą tylko do grupy pierwszej    #
+        //#     lub należą tylko do grupy drugiej;                                     #
+        //#                                                                            #
+        //##############################################################################
+
+        boolean add = true;
+
+        for (Car c1 : g1) {
+            for (Car c2 : g2) {
+                if (c1.equals(c2)) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add)
+                group.add(c1);
+            add = true;
+        }
+
+
+        for (Car c2 : g2) {
+            for (Car c1 : g1) {
+                if (c1.equals(c1)) {
+                    add = false;
+                    break;
+                }
+            }
+            if (add)
+                group.add(c2);
+            add = true;
+        }
+
+        return group;
+    }
+
+    public Collection<Car> getCollection() {
+        return collection;
+    }
 
     public String getName() {
         return name;
     }
-
 
     public void setName(String name) throws CarException {
         if ((name == null) || name.equals(""))
@@ -105,11 +274,19 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         this.name = name;
     }
 
-
     public GroupType getType() {
         return type;
     }
 
+    public void setType(String type_name) throws CarException {
+        for (GroupType type : GroupType.values()) {
+            if (type.toString().equals(type_name)) {
+                setType(type);
+                return;
+            }
+        }
+        throw new CarException("Nie ma takiego typu kolekcji.");
+    }
 
     public void setType(GroupType type) throws CarException {
         if (type == null) {
@@ -127,23 +304,6 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         for (Car person : oldCollection)
             collection.add(person);
     }
-
-
-    public void setType(String type_name) throws CarException {
-        for (GroupType type : GroupType.values()) {
-            if (type.toString().equals(type_name)) {
-                setType(type);
-                return;
-            }
-        }
-        throw new CarException("Nie ma takiego typu kolekcji.");
-    }
-
-
-    // Zamiast gettera getCollection zostały zaimplementowane
-    // niezbędne metody delegowane z interfejsu Collection,
-    // które umożliwiają wykonanie wszystkich operacji na
-    // kolekcji osób.
 
     public boolean add(Car e) {
         return collection.add(e);
@@ -195,101 +355,6 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
         });
     }
 
-    public void sortBrand() throws CarException {
-        if (type == GroupType.HASH_SET || type == GroupType.TREE_SET) {
-            throw new CarException("Kolekcje typu SET nie mogą być sortowane.");
-        }
-
-        Collections.sort((List<Car>) collection, new Comparator<Car>() {
-
-            @Override
-            public int compare(Car o1, Car o2) {
-                return o1.getCarBrand().toString().compareTo(o2.getCarBrand().toString());
-            }
-
-        });
-    }
-
-    public void sortCollor() throws CarException {
-        if (type == GroupType.HASH_SET || type == GroupType.TREE_SET) {
-            throw new CarException("Kolekcje typu SET nie mogą być sortowane.");
-        }
-
-        Collections.sort((List<Car>) collection, new Comparator<Car>() {
-
-            @Override
-            public int compare(Car o1, Car o2) {
-                return o1.getCarCColor().toString().compareTo(o2.getCarCColor().toString());
-            }
-
-        });
-    }
-
-    public void sortOwnerName() throws CarException {
-        if (type == GroupType.HASH_SET || type == GroupType.TREE_SET) {
-            throw new CarException("Kolekcje typu SET nie mogą być sortowane.");
-        }
-
-        Collections.sort((List<Car>) collection, new Comparator<Car>() {
-
-            @Override
-            public int compare(Car o1, Car o2) {
-                return o1.getCarOwnerName().compareTo(o2.getCarOwnerName());
-            }
-
-        });
-    }
-
-
-    @Override
-    public String toString() {
-        return name + "  [" + type + "]";
-    }
-
-
-    public static void printToFile(PrintWriter writer, GroupOfCars group) {
-        writer.println(group.getName());
-        writer.println(group.getType());
-        for (Car person : group.collection)
-            Car.printToFile(writer, person);
-    }
-
-
-    public static void printToFile(String file_name, GroupOfCars group) throws CarException {
-        try (PrintWriter writer = new PrintWriter(file_name)) {
-            printToFile(writer, group);
-        } catch (FileNotFoundException e) {
-            throw new CarException("Nie odnaleziono pliku " + file_name);
-        }
-    }
-
-
-    public static GroupOfCars readFromFile(BufferedReader reader) throws CarException {
-        try {
-            String group_name = reader.readLine();
-            String type_name = reader.readLine();
-            GroupOfCars groupOfPeople = new GroupOfCars(type_name, group_name);
-
-            Car person;
-            while ((person = Car.readFromFile(reader)) != null)
-                groupOfPeople.collection.add(person);
-            return groupOfPeople;
-        } catch (IOException e) {
-            throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
-        }
-    }
-
-
-    public static GroupOfCars readFromFile(String file_name) throws CarException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File(file_name)))) {
-            return GroupOfCars.readFromFile(reader);
-        } catch (FileNotFoundException e) {
-            throw new CarException("Nie odnaleziono pliku " + file_name);
-        } catch (IOException e) {
-            throw new CarException("Wystąpił błąd podczas odczytu danych z pliku.");
-        }
-    }
-
 
     //#######################################################################
     //#######################################################################
@@ -339,135 +404,54 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
     //##################################################################################
     //##################################################################################
 
-    public static GroupOfCars createGroupUnion(GroupOfCars g1, GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " OR " + g2.name + ")";
-        GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
-            type = g2.type;
-        } else {
-            type = g1.type;
+    public void sortBrand() throws CarException {
+        if (type == GroupType.HASH_SET || type == GroupType.TREE_SET) {
+            throw new CarException("Kolekcje typu SET nie mogą być sortowane.");
         }
-        GroupOfCars group = new GroupOfCars(type, name);
-        group.collection.addAll(g1.collection);
-        group.collection.addAll(g2.collection);
-        return group;
+
+        Collections.sort((List<Car>) collection, new Comparator<Car>() {
+
+            @Override
+            public int compare(Car o1, Car o2) {
+                return o1.getCarBrand().toString().compareTo(o2.getCarBrand().toString());
+            }
+
+        });
     }
 
-    public static GroupOfCars createGroupIntersection(GroupOfCars g1, GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " AND " + g2.name + ")";
-        GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
-            type = g2.type;
-        } else {
-            type = g1.type;
+    public void sortCollor() throws CarException {
+        if (type == GroupType.HASH_SET || type == GroupType.TREE_SET) {
+            throw new CarException("Kolekcje typu SET nie mogą być sortowane.");
         }
-        GroupOfCars group = new GroupOfCars(type, name);
 
-        //##############################################################################
-        //#                                                                            #
-        //# Tu należy dopisać instrukcje które wyznaczą część wspólną dwóch            #
-        //#      grup żródłowych                                                       #
-        //#   Do grupy należy dodać te osoby, które należą zarówno do grupy pierwszej  #
-        //#    jak i do grupy drugiej;                                                 #
-        //#                                                                            #
-        //##############################################################################
+        Collections.sort((List<Car>) collection, new Comparator<Car>() {
 
-        for (Car c1 : g1) {
-            for (Car c2 : g2) {
-                if (c1.equals(c2)) {
-                    group.add(c1);
-                    break;
-                }
+            @Override
+            public int compare(Car o1, Car o2) {
+                return o1.getCarCColor().toString().compareTo(o2.getCarCColor().toString());
             }
-        }
 
-        return group;
+        });
     }
 
-    public static GroupOfCars createGroupDifference(GroupOfCars g1, GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " SUB " + g2.name + ")";
-        GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
-            type = g2.type;
-        } else {
-            type = g1.type;
+    public void sortOwnerName() throws CarException {
+        if (type == GroupType.HASH_SET || type == GroupType.TREE_SET) {
+            throw new CarException("Kolekcje typu SET nie mogą być sortowane.");
         }
-        GroupOfCars group = new GroupOfCars(type, name);
 
-        //##############################################################################
-        //#                                                                            #
-        //# Tu należy dopisać instrukcje które wyznaczą różnicę dwóch                  #
-        //#      grup żródłowych                                                       #
-        //#   Do grupy należy dodać te osoby, które należą do grupy pierwszej          #
-        //#     i nie należą do grupy drugiej;                                         #
-        //#                                                                            #
-        //##############################################################################
-        boolean add = true;
+        Collections.sort((List<Car>) collection, new Comparator<Car>() {
 
-        for (Car c1 : g1) {
-            for (Car c2 : g2) {
-                if (c1.equals(c2)) {
-                    add = false;
-                    break;
-                }
+            @Override
+            public int compare(Car o1, Car o2) {
+                return o1.getCarOwnerName().compareTo(o2.getCarOwnerName());
             }
-            if (add)
-                group.add(c1);
-            add = true;
-        }
 
-        return group;
+        });
     }
 
-
-    public static GroupOfCars createGroupSymmetricDiff(GroupOfCars g1, GroupOfCars g2) throws CarException {
-        String name = "(" + g1.name + " XOR " + g2.name + ")";
-        GroupType type;
-        if (g2.collection instanceof Set && !(g1.collection instanceof Set)) {
-            type = g2.type;
-        } else {
-            type = g1.type;
-        }
-
-        GroupOfCars group = new GroupOfCars(type, name);
-
-        //##############################################################################
-        //#                                                                            #
-        //# Tu należy dopisać instrukcje które wyznaczą różnicę symetryczną dwóch      #
-        //#      grup żródłowych                                                       #
-        //#   Do grupy należy dodać te osoby, które należą tylko do grupy pierwszej    #
-        //#     lub należą tylko do grupy drugiej;                                     #
-        //#                                                                            #
-        //##############################################################################
-
-        boolean add = true;
-
-        for (Car c1 : g1) {
-            for (Car c2 : g2) {
-                if (c1.equals(c2)) {
-                    add = false;
-                    break;
-                }
-            }
-            if (add)
-                group.add(c1);
-            add = true;
-        }
-
-
-        for (Car c2 : g2) {
-            for (Car c1 : g1) {
-                if (c1.equals(c1)) {
-                    add = false;
-                    break;
-                }
-            }
-            if (add)
-                group.add(c2);
-            add = true;
-        }
-
-        return group;
+    @Override
+    public String toString() {
+        return name + "  [" + type + "]";
     }
 
 }

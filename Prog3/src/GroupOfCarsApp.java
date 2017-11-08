@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.*;
+import java.util.Iterator;
 
 //      aplikacja do zarzadzania grupą klasy groupofcars.java
 //    Autor: Wojciech Wójcik
@@ -25,16 +25,6 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     // Nazwa pliku w którym są zapisywane automatycznie dane przy
     // zamykaniu aplikacji i z którego są czytane dane po uruchomieniu.
     private static final String ALL_GROUPS_FILE = "LISTA_GRUP.BIN";
-
-
-    // Utworzenie obiektu reprezentującego główne okno aplikacji.
-    // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
-    // główne okno aplikacji.
-    public static void main(String[] args) throws CarException {
-        new GroupOfCarsApp();
-    }
-
-
     WindowAdapter windowListener = new WindowAdapter() {
 
         @Override
@@ -55,53 +45,41 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         }
 
     };
-
-
     // Zbiór samochodow, którymi zarządza aplikacja
     GroupOfCars currentGroup = new GroupOfCars(GroupType.ARRAY_LIST, "superGrupa");
-
-
     // Pasek menu wyświetlany na panelu w głównym oknie aplikacji
     JMenuBar menuBar = new JMenuBar();
     JMenu menuCar = new JMenu("Lisa samochodów");
     JMenu menuSort = new JMenu("Sortowanie");
     JMenu menuProperties = new JMenu("Właściwośći");
     JMenu menuAbout = new JMenu("O programie");
-
     // Opcje wyświetlane na panelu w głównym oknie aplikacji
     JMenuItem menuAddCar = new JMenuItem("Utwórz samochód");
     JMenuItem menuEditCar = new JMenuItem("Edytuj samochód");
     JMenuItem menuDeleteCar = new JMenuItem("Usuń samochód");
     JMenuItem menuLoadCar = new JMenuItem("załaduj samochód z pliku");
     JMenuItem menuSaveCar = new JMenuItem("Zapisz samochód do pliku");
-
     JMenuItem menuSortBrand = new JMenuItem("Sortowanie Marki");
     JMenuItem menuSortEngineSize = new JMenuItem("Sortowanie Pojemności");
     JMenuItem menuSortColor = new JMenuItem("Sortowanie Koloru");
     JMenuItem menuSortOwnerName = new JMenuItem("Sortowanie Imienia Właśiciela");
     JMenuItem menuSortProdYear = new JMenuItem("Sortowanie roku produkcji");
-
     JMenuItem menuPropChangeName = new JMenuItem("Zmien nazwę grupy");
     JMenuItem menuPropChangeCollType = new JMenuItem("Zmien typ kolekcji");
-
     JMenuItem menuAuthor = new JMenuItem("Autor");
-
     // Przyciski wyświetlane na panelu w głównym oknie aplikacji
-    JLabel groupNameLabel =      new JLabel("      Name: ");
+    JLabel groupNameLabel = new JLabel("      Name: ");
     JLabel collectionLabel = new JLabel("  Kolekcja: ");
     JTextField groupNameField = new JTextField(10);
     JTextField collectionField = new JTextField(10);
-
     JButton buttonAddCar = new JButton("Utwórz niowe somochod");
     JButton buttonEditCar = new JButton("Edytuj somochod");
     JButton buttonDeleteCar = new JButton(" Unuń somochod");
     JButton buttonLoadCar = new JButton("Otwórz somochod z pliku");
     JButton buttonSaveCar = new JButton("Zapisz somochod do pliku");
-
     // Widok tabeli z listą grup wyświetlany
     // na panelu w oknie głównym aplikacji
     ViewCarList viewList;
-
 
     public GroupOfCarsApp() throws CarException {
         // Konfiguracja parametrów głównego okna aplikacji
@@ -208,9 +186,27 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    static private GroupType choseCollectionWindow(Window parent, String message){
-        GroupType group = (GroupType)JOptionPane.showInputDialog(parent,"Wynierz kolekcje:","Wynierz kolekcje:",JOptionPane.QUESTION_MESSAGE,null,GroupType.values(),GroupType.ARRAY_LIST);
+    // Utworzenie obiektu reprezentującego główne okno aplikacji.
+    // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
+    // główne okno aplikacji.
+    public static void main(String[] args) throws CarException {
+        new GroupOfCarsApp();
+    }
+
+    static private GroupType choseCollectionWindow(Window parent, String message) {
+        GroupType group = (GroupType) JOptionPane.showInputDialog(parent, "Wynierz kolekcje:", "Wynierz kolekcje:", JOptionPane.QUESTION_MESSAGE, null, GroupType.values(), GroupType.ARRAY_LIST);
         return group;
+    }
+
+    public static GroupOfCars createNewGroupOfPeople(GroupManagerApp groupManagerApp) throws CarException {
+        JFrame frame = new JFrame("Edycja nazwy grupy");
+        String nameOfGroup = JOptionPane.showInputDialog(frame, "Podaj nazwę grupy:");
+        GroupType groupType = choseCollectionWindow(groupManagerApp, null);
+        GroupOfCarsApp APP = new GroupOfCarsApp();
+        APP.currentGroup.setName(nameOfGroup);
+        APP.currentGroup.setType(groupType);
+        APP.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        return APP.currentGroup;
     }
 
     @Override
@@ -297,10 +293,9 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
             }
 
             if (source == menuPropChangeCollType) {
-                currentGroup.setType(choseCollectionWindow(this,null));
+                currentGroup.setType(choseCollectionWindow(this, null));
                 collectionField.setText(currentGroup.getType().name());
             }
-
 
 
             if (source == menuAuthor) {
@@ -313,17 +308,6 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
 
         // Aktualizacja zawartości tabeli z listą grup.
         viewList.refreshView();
-    }
-
-    public static GroupOfCars createNewGroupOfPeople(GroupManagerApp groupManagerApp) throws CarException {
-        JFrame frame = new JFrame("Edycja nazwy grupy");
-        String nameOfGroup = JOptionPane.showInputDialog(frame, "Podaj nazwę grupy:");
-        GroupType groupType = choseCollectionWindow(groupManagerApp,null);
-        GroupOfCarsApp APP = new GroupOfCarsApp();
-        APP.currentGroup.setName(nameOfGroup);
-        APP.currentGroup.setType(groupType);
-        APP.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        return APP.currentGroup;
     }
 }
 

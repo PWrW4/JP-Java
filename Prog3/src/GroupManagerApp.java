@@ -1,33 +1,14 @@
-
-import java.awt.Dimension;
-import java.awt.Window;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableModel;
 
 /*  Aplikacja GroupMengerApp - okienkowe zarzadzanie grupami
  *
@@ -49,15 +30,6 @@ public class GroupManagerApp extends JFrame implements ActionListener {
     // Nazwa pliku w którym są zapisywane automatycznie dane przy
     // zamykaniu aplikacji i z którego są czytane dane po uruchomieniu.
     private static final String ALL_GROUPS_FILE = "LISTA_GRUP.BIN";
-
-    // Utworzenie obiektu reprezentującego główne okno aplikacji.
-    // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
-    // główne okno aplikacji.
-    public static void main(String[] args) {
-        new GroupManagerApp();
-    }
-
-
     WindowAdapter windowListener = new WindowAdapter() {
 
         @Override
@@ -78,48 +50,37 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         }
 
     };
-
-
-
-    // Zbiór grup osób, którymi zarządza aplikacja
-    private List<GroupOfCars> currentList = new ArrayList<GroupOfCars>();
-
     // Pasek menu wyświetlany na panelu w głównym oknie aplikacji
-    JMenuBar menuBar        = new JMenuBar();
-    JMenu menuGroups        = new JMenu("Grupy");
+    JMenuBar menuBar = new JMenuBar();
+    JMenu menuGroups = new JMenu("Grupy");
     JMenu menuSpecialGroups = new JMenu("Grupy specjalne");
-    JMenu menuAbout         = new JMenu("O programie");
-
+    JMenu menuAbout = new JMenu("O programie");
     // Opcje wyświetlane na panelu w głównym oknie aplikacji
-    JMenuItem menuNewGroup           = new JMenuItem("Utwórz grupę");
-    JMenuItem menuEditGroup          = new JMenuItem("Edytuj grupę");
-    JMenuItem menuDeleteGroup        = new JMenuItem("Usuń grupę");
-    JMenuItem menuLoadGroup          = new JMenuItem("załaduj grupę z pliku");
-    JMenuItem menuSaveGroup          = new JMenuItem("Zapisz grupę do pliku");
-
-    JMenuItem menuGroupUnion         = new JMenuItem("Połączenie grup");
-    JMenuItem menuGroupIntersection  = new JMenuItem("Część wspólna grup");
-    JMenuItem menuGroupDifference    = new JMenuItem("Różnica grup");
+    JMenuItem menuNewGroup = new JMenuItem("Utwórz grupę");
+    JMenuItem menuEditGroup = new JMenuItem("Edytuj grupę");
+    JMenuItem menuDeleteGroup = new JMenuItem("Usuń grupę");
+    JMenuItem menuLoadGroup = new JMenuItem("załaduj grupę z pliku");
+    JMenuItem menuSaveGroup = new JMenuItem("Zapisz grupę do pliku");
+    JMenuItem menuGroupUnion = new JMenuItem("Połączenie grup");
+    JMenuItem menuGroupIntersection = new JMenuItem("Część wspólna grup");
+    JMenuItem menuGroupDifference = new JMenuItem("Różnica grup");
     JMenuItem menuGroupSymmetricDiff = new JMenuItem("Różnica symetryczna grup");
-
-    JMenuItem menuAuthor             = new JMenuItem("Autor");
-
+    JMenuItem menuAuthor = new JMenuItem("Autor");
     // Przyciski wyświetlane na panelu w głównym oknie aplikacji
     JButton buttonNewGroup = new JButton("Utwórz");
     JButton buttonEditGroup = new JButton("Edytuj");
     JButton buttonDeleteGroup = new JButton(" Unuń ");
     JButton buttonLoadGroup = new JButton("Otwórz");
     JButton buttonSavegroup = new JButton("Zapisz");
-
     JButton buttonUnion = new JButton("Suma");
     JButton buttonIntersection = new JButton("Iloczyn");
     JButton buttonDifference = new JButton("Różnica");
     JButton buttonSymmetricDiff = new JButton("Różnica symetryczna");
-
-
     // Widok tabeli z listą grup wyświetlany
     // na panelu w oknie głównym aplikacji
     ViewGroupList viewList;
+    // Zbiór grup osób, którymi zarządza aplikacja
+    private List<GroupOfCars> currentList = new ArrayList<GroupOfCars>();
 
 
     public GroupManagerApp() {
@@ -253,12 +214,17 @@ public class GroupManagerApp extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-
+    // Utworzenie obiektu reprezentującego główne okno aplikacji.
+    // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
+    // główne okno aplikacji.
+    public static void main(String[] args) {
+        new GroupManagerApp();
+    }
 
     @SuppressWarnings("unchecked")
     void loadGroupListFromFile(String file_name) throws CarException {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file_name))) {
-            currentList = (List<GroupOfCars>)in.readObject();
+            currentList = (List<GroupOfCars>) in.readObject();
         } catch (FileNotFoundException e) {
             throw new CarException("Nie odnaleziono pliku " + file_name);
         } catch (Exception e) {
@@ -280,9 +246,9 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
     //  Metoda tworzy okno dialogowe do wyboru grupy podczas tworzenia
     //  grup specjalnych i innych operacji na grupach
-    private  GroupOfCars chooseGroup(Window parent, String message){
+    private GroupOfCars chooseGroup(Window parent, String message) {
         Object[] groups = currentList.toArray();
-        GroupOfCars group = (GroupOfCars)JOptionPane.showInputDialog(
+        GroupOfCars group = (GroupOfCars) JOptionPane.showInputDialog(
                 parent, message,
                 "Wybierz grupę",
                 JOptionPane.QUESTION_MESSAGE,
@@ -291,7 +257,6 @@ public class GroupManagerApp extends JFrame implements ActionListener {
                 null);
         return group;
     }
-
 
 
     @Override
@@ -347,7 +312,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
                     JFileChooser chooser = new JFileChooser(".");
                     int returnVal = chooser.showSaveDialog(this);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        GroupOfCars.printToFile( chooser.getSelectedFile().getName(), group );
+                        GroupOfCars.printToFile(chooser.getSelectedFile().getName(), group);
                     }
                 }
             }
@@ -369,7 +334,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
                 GroupOfCars group2 = chooseGroup(this, message2);
                 if (group2 == null)
                     return;
-                currentList.add( GroupOfCars.createGroupUnion(group1, group2) );
+                currentList.add(GroupOfCars.createGroupUnion(group1, group2));
             }
 
             if (source == menuGroupIntersection || source == buttonIntersection) {
@@ -389,7 +354,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
                 GroupOfCars group2 = chooseGroup(this, message2);
                 if (group2 == null)
                     return;
-                currentList.add( GroupOfCars.createGroupIntersection(group1, group2) );
+                currentList.add(GroupOfCars.createGroupIntersection(group1, group2));
             }
 
             if (source == menuGroupDifference || source == buttonDifference) {
@@ -409,7 +374,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
                 GroupOfCars group2 = chooseGroup(this, message2);
                 if (group2 == null)
                     return;
-                currentList.add( GroupOfCars.createGroupDifference(group1, group2) );
+                currentList.add(GroupOfCars.createGroupDifference(group1, group2));
             }
 
             if (source == menuGroupSymmetricDiff || source == buttonSymmetricDiff) {
@@ -425,7 +390,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
                 GroupOfCars group2 = chooseGroup(this, message2);
                 if (group2 == null)
                     return;
-                currentList.add( GroupOfCars.createGroupSymmetricDiff(group1, group2) );
+                currentList.add(GroupOfCars.createGroupSymmetricDiff(group1, group2));
             }
 
             if (source == menuAuthor) {
@@ -443,7 +408,6 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 } // koniec klasy GroupManagerApp
 
 
-
 /*
  * Pomocnicza klasa do wyświetlania listy grup
  * w postaci tabeli na panelu okna głównego
@@ -455,12 +419,12 @@ class ViewGroupList extends JScrollPane {
     private JTable table;
     private DefaultTableModel tableModel;
 
-    public ViewGroupList(List<GroupOfCars> list, int width, int height){
+    public ViewGroupList(List<GroupOfCars> list, int width, int height) {
         this.list = list;
         setPreferredSize(new Dimension(width, height));
         setBorder(BorderFactory.createTitledBorder("Lista grup:"));
 
-        String[] tableHeader = { "Nazwa grupy", "Typ kolekcji", "Liczba osób" };
+        String[] tableHeader = {"Nazwa grupy", "Typ kolekcji", "Liczba osób"};
         tableModel = new DefaultTableModel(tableHeader, 0);
         table = new JTable(tableModel) {
 
@@ -476,19 +440,19 @@ class ViewGroupList extends JScrollPane {
         setViewportView(table);
     }
 
-    void refreshView(){
+    void refreshView() {
         tableModel.setRowCount(0);
         for (GroupOfCars group : list) {
             if (group != null) {
-                String[] row = { group.getName(), group.getType().toString(), "" + group.size() };
+                String[] row = {group.getName(), group.getType().toString(), "" + group.size()};
                 tableModel.addRow(row);
             }
         }
     }
 
-    int getSelectedIndex(){
+    int getSelectedIndex() {
         int index = table.getSelectedRow();
-        if (index<0) {
+        if (index < 0) {
             JOptionPane.showMessageDialog(this, "Żadana grupa nie jest zaznaczona.", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
         return index;
