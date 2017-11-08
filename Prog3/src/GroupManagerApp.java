@@ -29,7 +29,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-/*  Aplikacja GroupMengerApp
+/*  Aplikacja GroupMengerApp - okienkowe zarzadzanie grupami
  *
  *   Autor: Wojciech Wójcik
  *   Data: 08.11.2017 r.

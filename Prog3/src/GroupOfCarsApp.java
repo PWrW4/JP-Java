@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 
-//
+//      aplikacja do zarzadzania grupą klasy groupofcars.java
 //    Autor: Wojciech Wójcik
 //    Data: 08.11.2017 r.
 //    Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
