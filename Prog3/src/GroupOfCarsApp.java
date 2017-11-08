@@ -5,8 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 public class GroupOfCarsApp extends JFrame implements ActionListener {
@@ -196,46 +195,76 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         // Odczytanie referencji do obiektu, który wygenerował zdarzenie.
         Object source = event.getSource();
 
-        //try {
+        try {
 
             if (source == menuAddCar || source == buttonAddCar) {
-
+                currentList.add(CarWindowDialog.createNewCar(this));
             }
 
             if (source == menuEditCar || source == buttonEditCar) {
-
+                Car carToEdit = null;
+                int index = viewList.getSelectedIndex();
+                if (index >= 0) {
+                    Iterator<Car> iterator = currentList.iterator();
+                    while (index-- >= 0)
+                        carToEdit = iterator.next();
+                    CarWindowDialog.changePersonData(this, carToEdit);
+                }
             }
 
             if (source == menuDeleteCar || source == buttonDeleteCar) {
-
+                int index = viewList.getSelectedIndex();
+                if (index >= 0) {
+                    Iterator<Car> iterator = currentList.iterator();
+                    while (index-- >= 0)
+                         iterator.next();
+                    iterator.remove();
+                }
             }
 
             if (source == menuLoadCar || source == buttonLoadCar) {
-
+                JFileChooser chooser = new JFileChooser(".");
+                int returnVal = chooser.showOpenDialog(this);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                         Car car = Car.readFromFile(chooser.getSelectedFile().getName());
+                         currentList.add(car);
+                }
             }
 
             if (source == menuSaveCar || source == buttonSaveCar) {
+                int index = viewList.getSelectedIndex();
+                if (index >= 0) {
+                    Iterator<Car> iterator = currentList.iterator();
+                    while (index-- > 0)
+                        iterator.next();
+                    Car car = iterator.next();
 
+                    JFileChooser chooser = new JFileChooser(".");
+                    int returnVal = chooser.showSaveDialog(this);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                               Car.printToFile( chooser.getSelectedFile().getName(), car );
+                    }
+                }
             }
 
             if (source == menuSortBrand) {
-
+                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarBrand().name())));
             }
 
             if (source == menuSortEngineSize) {
-
+                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarEngineSize())));
             }
 
             if (source == menuSortColor) {
-
+                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarCColor().name())));
             }
 
             if (source == menuSortOwnerName) {
-
+                Collections.sort(currentList);
             }
 
             if (source == menuSortProdYear) {
-
+                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarProdYear())));
             }
 
             if (source == menuPropChangeName) {
@@ -251,9 +280,9 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, GREETING_MESSAGE);
             }
 
-//        } catch (CarException e) {
-//            JOptionPane.showMessageDialog(this, e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
-//        }
+        } catch (CarException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
+        }
 
         // Aktualizacja zawartości tabeli z listą grup.
         viewList.refreshView();
