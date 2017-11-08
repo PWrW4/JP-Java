@@ -5,10 +5,9 @@
  *           definicja klasy CarException
  *           definicja publicznej klasy Car
  *
- *    Autor: Wojciech Wójcik
- *     Data:  07 pazdziernik 2017 r.
- *
- *     Prog2 on Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
+ *   Autor: Wojciech Wójcik
+ *   Data: 08.11.2017 r.
+ *   Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 
 

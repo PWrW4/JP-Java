@@ -5,7 +5,8 @@
  *   Opis: Zarządzanie kolekcjami klasy Car.java do programu okienkowego.
  *
  *   Autor: Wojciech Wójcik
- *   Data: 07.11.2017 r.
+ *   Data: 08.11.2017 r.
+ *   Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 
 import java.io.*;

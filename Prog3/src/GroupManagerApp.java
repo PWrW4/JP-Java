@@ -29,13 +29,11 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * Program: Aplikacja okienkowa z GUI, która umożliwia 
- *          zarządzanie grupami obiektów klasy Person.
- *    Plik: GroupManagerApp.java
- *          
- *   Autor: Paweł Rogalinski
- *    Data: pazdziernik 2017 r.
+/*  Aplikacja GroupMengerApp
+ *
+ *   Autor: Wojciech Wójcik
+ *   Data: 08.11.2017 r.
+ *   Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 
 public class GroupManagerApp extends JFrame implements ActionListener {
@@ -303,20 +301,20 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
         try {
             if (source == menuNewGroup || source == buttonNewGroup) {
-                GroupOfCars group = GroupOfPeopleWindowDialog.createNewGroupOfPeople(this);
+                GroupOfCars group = GroupOfCarsApp.createNewGroupOfPeople(this);
                 if (group != null) {
                     currentList.add(group);
                 }
             }
 
             if (source == menuEditGroup || source == buttonEditGroup) {
-                int index = viewList.getSelectedIndex();
-                if (index >= 0) {
-                    Iterator<GroupOfCars> iterator = currentList.iterator();
-                    while (index-- > 0)
-                        iterator.next();
-                    new GroupOfPeopleWindowDialog(this, iterator.next());
-                }
+//                int index = viewList.getSelectedIndex();
+//                if (index >= 0) {
+//                    Iterator<GroupOfCars> iterator = currentList.iterator();
+//                    while (index-- > 0)
+//                        iterator.next();
+//                    new GroupOfCarsApp(this, iterator.next());
+//                }
             }
 
             if (source == menuDeleteGroup || source == buttonDeleteGroup) {

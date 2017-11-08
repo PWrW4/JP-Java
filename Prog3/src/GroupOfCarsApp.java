@@ -7,6 +7,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 
+//
+//    Autor: Wojciech Wójcik
+//    Data: 08.11.2017 r.
+//    Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
+
 public class GroupOfCarsApp extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
@@ -20,6 +25,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     // Nazwa pliku w którym są zapisywane automatycznie dane przy
     // zamykaniu aplikacji i z którego są czytane dane po uruchomieniu.
     private static final String ALL_GROUPS_FILE = "LISTA_GRUP.BIN";
+
 
     // Utworzenie obiektu reprezentującego główne okno aplikacji.
     // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
@@ -202,7 +208,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    private GroupType choseCollectionWindow(Window parent, String message){
+    static private GroupType choseCollectionWindow(Window parent, String message){
         GroupType group = (GroupType)JOptionPane.showInputDialog(parent,"Wynierz kolekcje:","Wynierz kolekcje:",JOptionPane.QUESTION_MESSAGE,null,GroupType.values(),GroupType.ARRAY_LIST);
         return group;
     }
@@ -307,6 +313,17 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
 
         // Aktualizacja zawartości tabeli z listą grup.
         viewList.refreshView();
+    }
+
+    public static GroupOfCars createNewGroupOfPeople(GroupManagerApp groupManagerApp) throws CarException {
+        JFrame frame = new JFrame("Edycja nazwy grupy");
+        String nameOfGroup = JOptionPane.showInputDialog(frame, "Podaj nazwę grupy:");
+        GroupType groupType = choseCollectionWindow(groupManagerApp,null);
+        GroupOfCarsApp APP = new GroupOfCarsApp();
+        APP.currentGroup.setName(nameOfGroup);
+        APP.currentGroup.setType(groupType);
+        APP.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        return APP.currentGroup;
     }
 }
 

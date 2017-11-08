@@ -17,10 +17,9 @@ import javax.swing.JTextField;
  *          operacji wykonywanych na obiektach klasy Car.
  *    Plik: CarWindowDialog.java
  *
- *   Autor: Wojciech Wójcik na podstawie programu Paweł Rogaliński
- *    Data: 24.10.2017 r.
- *
- *   Prog2 on Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
+ *   Autor: Wojciech Wójcik
+ *   Data: 08.11.2017 r.
+ *   Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 public class CarWindowDialog extends JDialog implements ActionListener {
 
