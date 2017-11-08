@@ -68,6 +68,9 @@ public class GroupOfCars implements Iterable<Car>, Serializable {
     private GroupType type;
     private Collection<Car> collection;
 
+    public Collection<Car> getCollection() {
+        return collection;
+    }
 
     public GroupOfCars(GroupType type, String name) throws CarException {
         setName(name);

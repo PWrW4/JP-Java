@@ -6,14 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
-import java.util.List;
 
 public class GroupOfCarsApp extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
     private static final String GREETING_MESSAGE =
-                  "Modyfikacja Grup samochodów " +
+            "Modyfikacja Grup samochodów " +
                     "- wersja okienkowa\n\n" +
                     "Autor: Wojciech Wójcik\n" +
                     "Data:  8.11.2017 r.\n";
@@ -25,7 +24,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     // Utworzenie obiektu reprezentującego główne okno aplikacji.
     // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
     // główne okno aplikacji.
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CarException {
         new GroupOfCarsApp();
     }
 
@@ -52,37 +51,37 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     };
 
 
-
     // Zbiór samochodow, którymi zarządza aplikacja
-    private List<Car> currentList = new ArrayList<Car>();
+    GroupOfCars currentGroup = new GroupOfCars(GroupType.ARRAY_LIST, "superGrupa");
+
 
     // Pasek menu wyświetlany na panelu w głównym oknie aplikacji
-    JMenuBar menuBar     = new JMenuBar();
-    JMenu menuCar        = new JMenu("Lisa samochodów");
-    JMenu menuSort       = new JMenu("Sortowanie");
+    JMenuBar menuBar = new JMenuBar();
+    JMenu menuCar = new JMenu("Lisa samochodów");
+    JMenu menuSort = new JMenu("Sortowanie");
     JMenu menuProperties = new JMenu("Właściwośći");
-    JMenu menuAbout      = new JMenu("O programie");
+    JMenu menuAbout = new JMenu("O programie");
 
     // Opcje wyświetlane na panelu w głównym oknie aplikacji
-    JMenuItem menuAddCar          = new JMenuItem("Utwórz samochód");
-    JMenuItem menuEditCar          = new JMenuItem("Edytuj samochód");
-    JMenuItem menuDeleteCar        = new JMenuItem("Usuń samochód");
-    JMenuItem menuLoadCar          = new JMenuItem("załaduj samochód z pliku");
-    JMenuItem menuSaveCar          = new JMenuItem("Zapisz samochód do pliku");
+    JMenuItem menuAddCar = new JMenuItem("Utwórz samochód");
+    JMenuItem menuEditCar = new JMenuItem("Edytuj samochód");
+    JMenuItem menuDeleteCar = new JMenuItem("Usuń samochód");
+    JMenuItem menuLoadCar = new JMenuItem("załaduj samochód z pliku");
+    JMenuItem menuSaveCar = new JMenuItem("Zapisz samochód do pliku");
 
-    JMenuItem menuSortBrand         = new JMenuItem("Sortowanie Marki");
-    JMenuItem menuSortEngineSize  = new JMenuItem("Sortowanie Pojemności");
-    JMenuItem menuSortColor    = new JMenuItem("Sortowanie Koloru");
+    JMenuItem menuSortBrand = new JMenuItem("Sortowanie Marki");
+    JMenuItem menuSortEngineSize = new JMenuItem("Sortowanie Pojemności");
+    JMenuItem menuSortColor = new JMenuItem("Sortowanie Koloru");
     JMenuItem menuSortOwnerName = new JMenuItem("Sortowanie Imienia Właśiciela");
     JMenuItem menuSortProdYear = new JMenuItem("Sortowanie roku produkcji");
 
     JMenuItem menuPropChangeName = new JMenuItem("zmien nazwe grupy");
     JMenuItem menuPropChangeCollType = new JMenuItem("zmien typ kolekcji");
 
-    JMenuItem menuAuthor             = new JMenuItem("Autor");
+    JMenuItem menuAuthor = new JMenuItem("Autor");
 
     // Przyciski wyświetlane na panelu w głównym oknie aplikacji
-    JButton buttonAddCar  = new JButton("Utwórz niowe somochod");
+    JButton buttonAddCar = new JButton("Utwórz niowe somochod");
     JButton buttonEditCar = new JButton("Edytuj somochod");
     JButton buttonDeleteCar = new JButton(" Unuń somochod");
     JButton buttonLoadCar = new JButton("Otwórz somochod z pliku");
@@ -93,8 +92,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     ViewCarList viewList;
 
 
-
-    public GroupOfCarsApp() {
+    public GroupOfCarsApp() throws CarException {
         // Konfiguracja parametrów głównego okna aplikacji
         setTitle("Modyfikacja grup Samochodów");
         setSize(450, 500);
@@ -159,7 +157,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
 
 
         // Utwotrzenie tabeli z listą osób należących do grupy
-        viewList = new ViewCarList(currentList, 400, 350);
+        viewList = new ViewCarList(currentGroup, 400, 350);
         viewList.refreshView();
 
         // Utworzenie głównego panelu okna aplikacji.
@@ -198,14 +196,14 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         try {
 
             if (source == menuAddCar || source == buttonAddCar) {
-                currentList.add(CarWindowDialog.createNewCar(this));
+                currentGroup.add(CarWindowDialog.createNewCar(this));
             }
 
             if (source == menuEditCar || source == buttonEditCar) {
                 Car carToEdit = null;
                 int index = viewList.getSelectedIndex();
                 if (index >= 0) {
-                    Iterator<Car> iterator = currentList.iterator();
+                    Iterator<Car> iterator = currentGroup.iterator();
                     while (index-- >= 0)
                         carToEdit = iterator.next();
                     CarWindowDialog.changePersonData(this, carToEdit);
@@ -215,9 +213,9 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
             if (source == menuDeleteCar || source == buttonDeleteCar) {
                 int index = viewList.getSelectedIndex();
                 if (index >= 0) {
-                    Iterator<Car> iterator = currentList.iterator();
+                    Iterator<Car> iterator = currentGroup.iterator();
                     while (index-- >= 0)
-                         iterator.next();
+                        iterator.next();
                     iterator.remove();
                 }
             }
@@ -226,15 +224,15 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
                 JFileChooser chooser = new JFileChooser(".");
                 int returnVal = chooser.showOpenDialog(this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                         Car car = Car.readFromFile(chooser.getSelectedFile().getName());
-                         currentList.add(car);
+                    Car car = Car.readFromFile(chooser.getSelectedFile().getName());
+                    currentGroup.add(car);
                 }
             }
 
             if (source == menuSaveCar || source == buttonSaveCar) {
                 int index = viewList.getSelectedIndex();
                 if (index >= 0) {
-                    Iterator<Car> iterator = currentList.iterator();
+                    Iterator<Car> iterator = currentGroup.iterator();
                     while (index-- > 0)
                         iterator.next();
                     Car car = iterator.next();
@@ -242,29 +240,29 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
                     JFileChooser chooser = new JFileChooser(".");
                     int returnVal = chooser.showSaveDialog(this);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
-                               Car.printToFile( chooser.getSelectedFile().getName(), car );
+                        Car.printToFile(chooser.getSelectedFile().getName(), car);
                     }
                 }
             }
 
             if (source == menuSortBrand) {
-                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarBrand().name())));
+                currentGroup.sortBrand();
             }
 
             if (source == menuSortEngineSize) {
-                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarEngineSize())));
+                currentGroup.sortEngineSize();
             }
 
             if (source == menuSortColor) {
-                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarCColor().name())));
+                currentGroup.sortCollor();
             }
 
             if (source == menuSortOwnerName) {
-                Collections.sort(currentList);
+                currentGroup.sortOwnerName();
             }
 
             if (source == menuSortProdYear) {
-                Collections.sort(currentList,(Comparator.comparing(o -> o.getCarProdYear())));
+                currentGroup.sortProdYear();
             }
 
             if (source == menuPropChangeName) {
@@ -293,16 +291,16 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
 class ViewCarList extends JScrollPane {
     private static final long serialVersionUID = 1L;
 
-    private List<Car> list;
+    private GroupOfCars goc;
     private JTable table;
     private DefaultTableModel tableModel;
 
-    public ViewCarList(List<Car> list, int width, int height){
-        this.list = list;
+    public ViewCarList(GroupOfCars _goc, int width, int height) {
+        this.goc = _goc;
         setPreferredSize(new Dimension(width, height));
         setBorder(BorderFactory.createTitledBorder("Lista samochodow:"));
 
-        String[] tableHeader = { "Marka", "Rok Produkcji", "Pojemność", "Kolor", "Imie właściciela" };
+        String[] tableHeader = {"Marka", "Rok Produkcji", "Pojemność", "Kolor", "Imie właściciela"};
         tableModel = new DefaultTableModel(tableHeader, 0);
         table = new JTable(tableModel) {
 
@@ -318,19 +316,19 @@ class ViewCarList extends JScrollPane {
         setViewportView(table);
     }
 
-    void refreshView(){
+    void refreshView() {
         tableModel.setRowCount(0);
-        for (Car car : list) {
+        for (Car car : goc) {
             if (car != null) {
-                String[] row = { car.getCarBrand().name(),"" + car.getCarProdYear(),"" + car.getCarEngineSize(), car.getCarCColor().name(),car.getCarOwnerName() };
+                String[] row = {car.getCarBrand().name(), "" + car.getCarProdYear(), "" + car.getCarEngineSize(), car.getCarCColor().name(), car.getCarOwnerName()};
                 tableModel.addRow(row);
             }
         }
     }
 
-    int getSelectedIndex(){
+    int getSelectedIndex() {
         int index = table.getSelectedRow();
-        if (index<0) {
+        if (index < 0) {
             JOptionPane.showMessageDialog(this, "Żadana grupa nie jest zaznaczona.", "Błąd", JOptionPane.ERROR_MESSAGE);
         }
         return index;
