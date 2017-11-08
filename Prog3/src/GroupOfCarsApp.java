@@ -75,12 +75,17 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     JMenuItem menuSortOwnerName = new JMenuItem("Sortowanie Imienia Właśiciela");
     JMenuItem menuSortProdYear = new JMenuItem("Sortowanie roku produkcji");
 
-    JMenuItem menuPropChangeName = new JMenuItem("zmien nazwe grupy");
-    JMenuItem menuPropChangeCollType = new JMenuItem("zmien typ kolekcji");
+    JMenuItem menuPropChangeName = new JMenuItem("Zmien nazwę grupy");
+    JMenuItem menuPropChangeCollType = new JMenuItem("Zmien typ kolekcji");
 
     JMenuItem menuAuthor = new JMenuItem("Autor");
 
     // Przyciski wyświetlane na panelu w głównym oknie aplikacji
+    JLabel groupNameLabel =      new JLabel("      Name: ");
+    JLabel collectionLabel = new JLabel("  Kolekcja: ");
+    JTextField groupNameField = new JTextField(10);
+    JTextField collectionField = new JTextField(10);
+
     JButton buttonAddCar = new JButton("Utwórz niowe somochod");
     JButton buttonEditCar = new JButton("Edytuj somochod");
     JButton buttonDeleteCar = new JButton(" Unuń somochod");
@@ -99,6 +104,11 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        collectionField.setEditable(false);
+        collectionField.setText(GroupType.ARRAY_LIST.name());
+        groupNameField.setEditable(false);
+        groupNameField.setText("superGrupa");
 
 
         // Utworzenie i konfiguracja menu aplikacji
@@ -149,6 +159,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         // UWAGA: słuchaczem zdarzeń będzie metoda actionPerformed
         // zaimplementowana w tej klasie i wywołana dla
         // bieżącej instancji okna aplikacji - referencja this
+
         buttonAddCar.addActionListener(this);
         buttonEditCar.addActionListener(this);
         buttonDeleteCar.addActionListener(this);
@@ -157,7 +168,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
 
 
         // Utwotrzenie tabeli z listą osób należących do grupy
-        viewList = new ViewCarList(currentGroup, 400, 350);
+        viewList = new ViewCarList(currentGroup, 400, 300);
         viewList.refreshView();
 
         // Utworzenie głównego panelu okna aplikacji.
@@ -167,6 +178,10 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
 
         // Dodanie i rozmieszczenie na panelu wszystkich
         // komponentów GUI.
+        panel.add(groupNameLabel);
+        panel.add(groupNameField);
+        panel.add(collectionLabel);
+        panel.add(collectionField);
         panel.add(viewList);
         panel.add(buttonAddCar);
         panel.add(buttonEditCar);
@@ -187,6 +202,10 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    private GroupType choseCollectionWindow(Window parent, String message){
+        GroupType group = (GroupType)JOptionPane.showInputDialog(parent,"Wynierz kolekcje:","Wynierz kolekcje:",JOptionPane.QUESTION_MESSAGE,null,GroupType.values(),GroupType.ARRAY_LIST);
+        return group;
+    }
 
     @Override
     public void actionPerformed(ActionEvent event) {
@@ -266,12 +285,16 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
             }
 
             if (source == menuPropChangeName) {
-
+                JFrame frame = new JFrame("Edycja nazwy grupy");
+                currentGroup.setName(JOptionPane.showInputDialog(frame, "Podaj nazwę grupy:"));
+                groupNameField.setText(currentGroup.getName());
             }
 
             if (source == menuPropChangeCollType) {
-
+                currentGroup.setType(choseCollectionWindow(this,null));
+                collectionField.setText(currentGroup.getType().name());
             }
+
 
 
             if (source == menuAuthor) {
