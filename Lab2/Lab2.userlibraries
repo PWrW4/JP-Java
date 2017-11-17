@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Lab2">
+    <archive path="H:/Workspace/jp3/Lab2/out/production/Lab2/PersonWindowApp.jar" />
+    <archive path="H:/Workspace/jp3/Lab2/out/production/Lab2/PersonConsoleApp.jar" />
+  </library>
+  <library name="src">
+    <archive path="H:/Workspace/jp3/Lab2/src/PersonWindowApp.jar" />
+    <archive path="H:/Workspace/jp3/Lab2/src/PersonConsoleApp.jar" />
+  </library>
+</eclipse-userlibraries>
+

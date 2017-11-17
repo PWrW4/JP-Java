@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Demos">
+    <archive path="H:/Workspace/jp3/Lab4/src/Demos/GraphicEditorDEMO.jar" />
+    <archive path="H:/Workspace/jp3/Lab4/src/Demos/KrzywaLissajous.jar" />
+  </library>
+</eclipse-userlibraries>
+
