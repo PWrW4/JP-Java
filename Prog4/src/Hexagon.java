@@ -43,7 +43,7 @@ public class Hexagon extends Figure {
 
 	@Override
 	String getName() {
-		return "Hexagon{" + 
+		return "Sześciokąt{" + 
 				p1.toStringXY() +
                 p2.toStringXY() +
                 p3.toStringXY() +

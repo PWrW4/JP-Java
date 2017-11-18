@@ -52,6 +52,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
     private JButton buttonCircle = new JButton("Kolo");
     private JButton buttonTriangle = new JButton("Trojkat");
     private JButton buttonHexagon = new JButton("Sześciokąt");
+    private JButton buttonRectangle = new JButton("Prostokąt");
 
 
     public GraphicEditor() {
@@ -92,12 +93,14 @@ public class GraphicEditor extends JFrame implements ActionListener {
         buttonCircle.addActionListener(this);
         buttonTriangle.addActionListener(this);
         buttonHexagon.addActionListener(this);
-
+        buttonRectangle.addActionListener(this);
+        
         picture.add(buttonPoint);
         picture.add(buttonCircle);
         picture.add(buttonTriangle);
         picture.add(buttonHexagon);
-
+        picture.add(buttonRectangle);	
+        
         setContentPane(picture);
         setVisible(true);
     }
@@ -113,6 +116,9 @@ public class GraphicEditor extends JFrame implements ActionListener {
             picture.addFigure(new Triangle());
         if (zrodlo == buttonHexagon) 
 			picture.addFigure(new Hexagon());
+        if (zrodlo == buttonRectangle) {
+			picture.addFigure(new Rectangle());
+		}
 		
 
         if (zrodlo == items[0])

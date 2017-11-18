@@ -39,7 +39,7 @@ abstract class Figure {
         if (isSelected()) s = s + "   [SELECTED]";
         return s;
     }
-
+    
     abstract String getName();
 
     abstract float getX();
