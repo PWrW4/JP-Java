@@ -15,14 +15,15 @@ public class Hexagon extends Figure {
 		calculatePoints(a);
 	}
 	
+	//ten konstruktor nie jest raczej potrzebny, ale zostawię go. Ładny jest, taki nielosowy :)
 	public Hexagon(float a) {	
 		center = new Point();
 		calculatePoints(a);
 	}
 	
+	//tu jest taka super klasa która pozycjonuje wszystkie punkty, W sumie przydatne (robi się to po zeskalowaniu i przesunięciu :) )
 	void calculatePoints(float a) {
-		float 	//d_logn=2*a,
-				d_short = (float) (Math.sqrt(3)*a);
+		float d_short = (float) (Math.sqrt(3)*a);
 		p1 = new Point(center.getX()-0.5f*a,center.getY()+0.5f*d_short);
 		p2 = new Point(center.getX()+0.5f*a,center.getY()+0.5f*d_short);
 		p3 = new Point(center.getX()+0.5f*d_short,center.getY());

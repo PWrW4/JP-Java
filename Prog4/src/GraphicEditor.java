@@ -53,7 +53,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
     private JButton buttonTriangle = new JButton("Trojkat");
     private JButton buttonHexagon = new JButton("Sześciokąt");
     private JButton buttonRectangle = new JButton("Prostokąt");
-
+    private JButton buttonHourglass = new JButton("Klepsydra");
 
     public GraphicEditor() {
         super("Edytor graficzny");
@@ -94,12 +94,14 @@ public class GraphicEditor extends JFrame implements ActionListener {
         buttonTriangle.addActionListener(this);
         buttonHexagon.addActionListener(this);
         buttonRectangle.addActionListener(this);
+        buttonHourglass.addActionListener(this);
         
         picture.add(buttonPoint);
         picture.add(buttonCircle);
         picture.add(buttonTriangle);
         picture.add(buttonHexagon);
         picture.add(buttonRectangle);	
+        picture.add(buttonHourglass);
         
         setContentPane(picture);
         setVisible(true);
@@ -116,9 +118,11 @@ public class GraphicEditor extends JFrame implements ActionListener {
             picture.addFigure(new Triangle());
         if (zrodlo == buttonHexagon) 
 			picture.addFigure(new Hexagon());
-        if (zrodlo == buttonRectangle) {
+        if (zrodlo == buttonRectangle)
 			picture.addFigure(new Rectangle());
-		}
+		if (zrodlo == buttonHourglass)
+			picture.addFigure(new Hourglass());
+        
 		
 
         if (zrodlo == items[0])

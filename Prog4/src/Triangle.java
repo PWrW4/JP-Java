@@ -9,7 +9,7 @@ class Triangle extends Figure {
         point3 = new Point();
     }
 
-    Triangle(Point p1, Point p2, Point p3) {
+	Triangle(Point p1, Point p2, Point p3) {
         point1 = p1;
         point2 = p2;
         point3 = p3;
