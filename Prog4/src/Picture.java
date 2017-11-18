@@ -15,6 +15,10 @@ class Picture extends JPanel implements KeyListener, MouseListener {
     Vector<Figure> figures = new Vector<Figure>();
 
 
+    	private int mouseX;
+    	private int mouseY;
+    	
+    
     /*
      * UWAGA: ta metoda będzie wywoływana automatycznie przy każdej potrzebie
      * odrysowania na ekranie zawartości panelu
@@ -79,6 +83,12 @@ class Picture extends JPanel implements KeyListener, MouseListener {
             case KeyEvent.VK_DOWN:
                 moveAllFigures(0, dist);
                 break;
+            case KeyEvent.VK_LEFT:
+                moveAllFigures(-dist, 0);
+                break;
+            case KeyEvent.VK_RIGHT:
+                moveAllFigures(dist, 0);
+                break;
             case KeyEvent.VK_DELETE:
                 Iterator<Figure> i = figures.iterator();
                 while (i.hasNext()) {
@@ -109,13 +119,34 @@ class Picture extends JPanel implements KeyListener, MouseListener {
             case 't':
                 addFigure(new Triangle());
                 break;
+            case 's':
+                addFigure(new Hexagon());
+                break;
+            case 'k':
+                addFigure(new Hourglass());
+                break;
+            case 'r':
+                addFigure(new Rectangle());
+                break;
 
             case '+':
-                scaleAllFigures(1.1f);
-                break;
+            	if (evt.isShiftDown()) {
+                    scaleAllFigures(2f);
+                    break;
+            	}
+            	else {
+                  scaleAllFigures(1.1f);
+                  break;
+            	}
             case '-':
-                scaleAllFigures(0.9f);
-                break;
+            	if (evt.isShiftDown()) {
+	                scaleAllFigures(0.5f);
+	                break;
+            	}            		
+				else {
+	                scaleAllFigures(0.9f);
+	                break;
+				}
         }
     }
 
@@ -156,5 +187,13 @@ class Picture extends JPanel implements KeyListener, MouseListener {
     //Invoked when a mouse button has been released on a component.
     {
     }
+    
+    public void mouseDragged(MouseEvent e)
+    {
+    	moveAllFigures(e.getX() - mouseX, e.getY() - mouseY);
+    	mouseX = e.getX();
+    	mouseY = e.getY();
+    	repaint();
+   }
 
 }

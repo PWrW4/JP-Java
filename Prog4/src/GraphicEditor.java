@@ -28,6 +28,9 @@ public class GraphicEditor extends JFrame implements ActionListener {
             + "   p  ==> dodanie nowego punktu\n"
             + "   c  ==> dodanie nowego kola\n"
             + "   t  ==> dodanie nowego trojkata\n"
+            + "   k  ==> dodanie nowej klepsydry\n"
+            + "   s  ==> dodanie nowego sześciokąta\n"
+            + "   r  ==> dodanie nowego prostokąta\n"
             + "\nOperacje myszka:\n" + "   klik ==> zaznaczanie figur\n"
             + "   ALT + klik ==> zmiana zaznaczenia figur\n"
             + "   przeciaganie ==> przesuwanie figur";
@@ -35,10 +38,13 @@ public class GraphicEditor extends JFrame implements ActionListener {
 
     protected Picture picture;
 
-    private JMenu[] menu = {new JMenu("Figury"),
-            new JMenu("Edytuj")};
+    private JMenu[] menu = {
+    		new JMenu("Figury"),
+            new JMenu("Edytuj")
+            };
 
-    private JMenuItem[] items = {new JMenuItem("Punkt"),
+    private JMenuItem[] items = {
+    		new JMenuItem("Punkt"),
             new JMenuItem("Kolo"),
             new JMenuItem("Trojkat"),
             new JMenuItem("Wypisz wszystkie"),
@@ -46,6 +52,11 @@ public class GraphicEditor extends JFrame implements ActionListener {
             new JMenuItem("Przesun w dol"),
             new JMenuItem("Powieksz"),
             new JMenuItem("Pomniejsz"),
+            new JMenuItem("Przesun w lewo"),
+            new JMenuItem("Przesun w prawo"),
+            new JMenuItem("Sześciokąt"),
+            new JMenuItem("Prostokąt"),
+            new JMenuItem("Klepsydra")
     };
 
     private JButton buttonPoint = new JButton("Punkt");
@@ -67,10 +78,15 @@ public class GraphicEditor extends JFrame implements ActionListener {
         menu[0].add(items[0]);
         menu[0].add(items[1]);
         menu[0].add(items[2]);
+        menu[0].add(items[10]);
+        menu[0].add(items[11]);
+        menu[0].add(items[12]);
         menu[0].addSeparator();
         menu[0].add(items[3]);
 
         // dodanie opcji do menu "Edytuj"
+        menu[1].add(items[8]);
+        menu[1].add(items[9]);
         menu[1].add(items[4]);
         menu[1].add(items[5]);
         menu[1].addSeparator();
@@ -131,17 +147,28 @@ public class GraphicEditor extends JFrame implements ActionListener {
             picture.addFigure(new Circle());
         if (zrodlo == items[2])
             picture.addFigure(new Triangle());
+        if (zrodlo == items[10])
+            picture.addFigure(new Hexagon());
+        if (zrodlo == items[11])
+            picture.addFigure(new Rectangle());
+        if (zrodlo == items[12])
+            picture.addFigure(new Hourglass());        
         if (zrodlo == items[3])
             JOptionPane.showMessageDialog(null, picture.toString());
 
+        if (zrodlo == items[8])
+            picture.moveAllFigures(-30, 0);
+        if (zrodlo == items[9])
+            picture.moveAllFigures(30, 0);
         if (zrodlo == items[4])
-            picture.moveAllFigures(0, -10);
+            picture.moveAllFigures(0, -30);
         if (zrodlo == items[5])
-            picture.moveAllFigures(0, 10);
+            picture.moveAllFigures(0, 30);
         if (zrodlo == items[6])
-            picture.scaleAllFigures(1.1f);
+            picture.scaleAllFigures(1.2f);
         if (zrodlo == items[7])
-            picture.scaleAllFigures(0.9f);
+            picture.scaleAllFigures(0.8f);
+        
 
         picture.requestFocus(); // przywrocenie ogniskowania w celu przywrocenia
         // obslugi zadarez� pd klawiatury
