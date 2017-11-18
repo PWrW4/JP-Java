@@ -3,7 +3,8 @@
  *   - obs�uga zdarzeń od klawiatury, myszki i innych elementów GUI.
  *
  *  Autor: Pawe� Rogalinski, Wojciech Wójcik
- *   Data: 1. 10, 2015 r.
+ *   Data: 18. 11, 2017 r.
+ *   git repo: https://bitbucket.org/pwr_wroc_w4/jp3
  */
 
 import javax.swing.*;
