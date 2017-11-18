@@ -24,6 +24,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
             + "   strzalki ==> przesuwanie figur\n"
             + "   SHIFT + strzalki ==> szybkie przesuwanie figur\n"
             + "   +,-  ==> powiekszanie, pomniejszanie\n"
+            + "   SHIFT + '+/-' ==> szybkie skalowanie figur\n"
             + "   DEL  ==> kasowanie figur\n"
             + "   p  ==> dodanie nowego punktu\n"
             + "   c  ==> dodanie nowego kola\n"

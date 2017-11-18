@@ -4,10 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Iterator;
 import java.util.Vector;
 
-class Picture extends JPanel implements KeyListener, MouseListener {
+class Picture extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -181,6 +182,8 @@ class Picture extends JPanel implements KeyListener, MouseListener {
     public void mousePressed(MouseEvent e)
     // Invoked when a mouse button has been pressed on a component.
     {
+    	this.mouseX = e.getX();
+    	this.mouseY = e.getY();
     }
 
     public void mouseReleased(MouseEvent e)
@@ -195,5 +198,12 @@ class Picture extends JPanel implements KeyListener, MouseListener {
     	mouseY = e.getY();
     	repaint();
    }
+
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
