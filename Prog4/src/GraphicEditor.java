@@ -9,9 +9,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Vector;
 
 
 public class GraphicEditor extends JFrame implements ActionListener {
@@ -41,7 +38,8 @@ public class GraphicEditor extends JFrame implements ActionListener {
 
     private JMenu[] menu = {
     		new JMenu("Figury"),
-            new JMenu("Edytuj")
+            new JMenu("Edytuj"),
+            new JMenu("Pomoc")
             };
 
     private JMenuItem[] items = {
@@ -57,7 +55,9 @@ public class GraphicEditor extends JFrame implements ActionListener {
             new JMenuItem("Przesun w prawo"),
             new JMenuItem("Sześciokąt"),
             new JMenuItem("Prostokąt"),
-            new JMenuItem("Klepsydra")
+            new JMenuItem("Klepsydra"),
+            new JMenuItem("Pomoc"),
+            new JMenuItem("Autor")
     };
 
     private JButton buttonPoint = new JButton("Punkt");
@@ -93,6 +93,9 @@ public class GraphicEditor extends JFrame implements ActionListener {
         menu[1].addSeparator();
         menu[1].add(items[6]);
         menu[1].add(items[7]);
+        
+        menu[2].add(items[13]);
+        menu[2].add(items[14]);
 
         // dodanie do okna paska menu
         JMenuBar menubar = new JMenuBar();
@@ -169,8 +172,12 @@ public class GraphicEditor extends JFrame implements ActionListener {
             picture.scaleAllFigures(1.2f);
         if (zrodlo == items[7])
             picture.scaleAllFigures(0.8f);
+        if (zrodlo == items[13])
+            JOptionPane.showMessageDialog(null,	 DESCRIPTION);
+        if (zrodlo == items[14])
+            JOptionPane.showMessageDialog(null,	 "Autor: Pawel Rogalinski i Wojciech Wójcik");
         
-
+        
         picture.requestFocus(); // przywrocenie ogniskowania w celu przywrocenia
         // obslugi zadarez� pd klawiatury
         repaint();
