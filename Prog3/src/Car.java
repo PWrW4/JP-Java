@@ -40,9 +40,15 @@ enum CColor {
 /**
  * Klasa Car przechowuje dane o samochodzie.
  *
+ * Klasa przechowuje następujące informacje o samochodzie
+ * <ul>
+ * 	<li>Marka</li>
+ *	<li>Wielkość silnika</li>
+ *	<li>Rok Produkcji</li>
+ *	<li>Kolor samochodu</li>
+ *	<li>Imię i nazwisko właściciela</li>
+ *</ul>
  * @author  Wojciech Wójcik
- * @version 1.0
- * @since   2017-10-11
  */
 public class Car implements Serializable, Comparable<Car> {
 
@@ -71,12 +77,27 @@ public class Car implements Serializable, Comparable<Car> {
         setCarEngineSize(carEngineSize);
     }
 
-
+    /**
+     * Klasa zapisująca dane samochodu do pliku.
+     * 
+     * @param PrintWriter Obiekt który odpowiada za zapis do pliku
+     * @param carToWrite samochód którego dane chcemy zapisać do pliku.
+     */
     public static void printToFile(PrintWriter writer, Car carToWrite) {
         writer.println(carToWrite.carBrand + "#" + carToWrite.carCColor +
                 "#" + carToWrite.carEngineSize + "#" + carToWrite.carProdYear + "#" + carToWrite.carOwnerName);
     }
 
+    /**
+     * Klasa zapisująca dane samochodu do pliku.
+     * 
+     * <p>Metoda tworzy <code>PrintWriter</code> po czym wywołuje metodę {@link #printToFile(PrintWriter,Car)} </p>
+     * 
+     * @exception CarException Wyjątek zgłaszany przy błędzie zapisu
+     * 
+     * @param file_name nazwa pliku w którym dane zostaną zapisane.
+     * @param carToWrite samochód którego dane chcemy zapisać do pliku.
+     */
     public static void printToFile(String file_name, Car carToWrite) throws CarException {
         try (PrintWriter writer = new PrintWriter(file_name)) {
             printToFile(writer, carToWrite);
@@ -85,6 +106,14 @@ public class Car implements Serializable, Comparable<Car> {
         }
     }
 
+    /**
+     * Klasa wczytująca dane samochodu pliku.
+     * 
+     * 
+     * @exception CarException Wyjątek zgłaszany przy błędzie odczytu
+     * 
+     * @param reader Bufor z którego czytane są informacje o samochodzie.
+     */
     public static Car readFromFile(BufferedReader reader) throws CarException {
         try {
             String line = reader.readLine();
@@ -98,6 +127,15 @@ public class Car implements Serializable, Comparable<Car> {
         }
     }
 
+    /**
+     * Klasa wczytująca dane samochodu pliku.
+     * 
+     * <p>Metoda tworzy <code>BufferedReader</code> po czym wywołuje metodę {@link #readFromFile(BufferedReader)} </p>
+     * 
+     * @exception CarException Wyjątek zgłaszany przy nie znalezieniu pliku, lub jego błędzie oczytu.
+     * 
+     * @param file_name nazwa pliku w którym dane zostały zapisane.
+     */
     public static Car readFromFile(String file_name) throws CarException {
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(file_name)))) {
             return Car.readFromFile(reader);
@@ -108,15 +146,32 @@ public class Car implements Serializable, Comparable<Car> {
         }
     }
 
+    /**
+     * Przeciążona metoda toString(), która wypisuje informacje o samochodzie.
+     *  
+     */
     @Override
     public String toString() {
         return carBrand.name() + " " + carCColor.name() + " " + carProdYear + " " + carEngineSize + " " + carOwnerName;
     }
 
+    /**
+     * Setter marki samochodu.
+     * 
+     *  @param carBrand marka samochodu.
+     */
     public void setCarBrand(Brand carBrand) {
         this.carBrand = carBrand;
     }
-
+    
+    /**
+     * Setter koloru samochodu.
+     * 
+     * 
+     * @throws CarException w przypadku złego podania nazwy koloru jest zgłaszany wyjątek.
+     * 
+     *  @param colorString String zawierający nazwę koloru.
+     */
     public void setCarColor(String colorString) throws CarException {
         if (colorString == null || colorString.equals("")) {
             carCColor = CColor.OTHER;
@@ -130,33 +185,63 @@ public class Car implements Serializable, Comparable<Car> {
         }
         throw new CarException("Nie ma takiego koloru");
     }
-
+    
+    /**
+     * Setter Wilkości silnika.
+     * 
+     *  @throws CarException w przypadku złego podania wielkości silnika (>0) jest zgłaszany wyjątek.
+     *  @param carEngineSize argument zawierający wielkość silnika.
+     */
     public void setCarEngineSize(int carEngineSize) throws CarException {
         if (carEngineSize < 0)
             throw new CarException("Pojemność silnika musi byc wieksza od 0.");
         this.carEngineSize = carEngineSize;
     }
 
+    
+    /**
+     * Setter roku produkcji samochodu.
+     * 
+     *  @throws CarException w przypadku złego podania wielkości silnika (>0 i <2018) jest zgłaszany wyjątek.
+     *  @param carEngineSize argument zawierający rok produkcji.
+     */
     public void setCarProdYear(int prodYear) throws CarException {
         if (prodYear < 1900 || prodYear > 2018/*Calendar.getInstance().get(Calendar.YEAR)*/)
             throw new CarException("Nieprawidłowa data, lub zła data ustawiona na urządzeniu.");
         this.carProdYear = prodYear;
     }
 
+    /**
+     * Getter imienia właśiciela.
+     * 
+     *  @return imię właściciela
+     */
     public String getCarOwnerName() {
         return carOwnerName;
     }
 
+    
     public void setCarOwnerName(String carOwnerName) throws CarException {
         if ((carOwnerName == null) || carOwnerName.equals(""))
             throw new CarException("Pole <Imię> musi być wypełnione.");
         this.carOwnerName = carOwnerName;
     }
 
+    /**
+     * Getter marki.
+     * 
+     *  @return marka samochodu
+     */
     public Brand getCarBrand() {
         return carBrand;
     }
 
+    /**
+     * Setter Marki samochodu.
+     * 
+     *  @throws CarException w przypadku złego podania marki jest zgłaszany wyjątek.
+     *  @param carBrancString argument zawierający tekst z nazwą marki samochodu.
+     */
     public void setCarBrand(String carBrancString) throws CarException {
         if (carBrancString == null || carBrancString.equals("")) {
             carBrand = Brand.OTHER;
@@ -171,6 +256,11 @@ public class Car implements Serializable, Comparable<Car> {
         throw new CarException("Nie ma takiej marki");
     }
 
+    /**
+     * Getter koloru samochodu.
+     * 
+     *  @return kolor samochodu
+     */
     public CColor getCarCColor() {
         return carCColor;
     }
@@ -179,10 +269,21 @@ public class Car implements Serializable, Comparable<Car> {
         this.carCColor = carCColor;
     }
 
+    /**
+     * Getter pojemności.
+     * 
+     *  @return pojemność samochodu.
+     */
     public int getCarEngineSize() {
         return carEngineSize;
     }
 
+    /**
+     * Setter pojemności samochodu.
+     * 
+     *  @throws CarException w przypadku złego podania wielkości silnika jest zgłaszany wyjątek.
+     *  @param engineSize argument zawierający pojemność.
+     */
     public void setCarEngineSize(String engineSize) throws CarException {
         int _intEngineSize;
         if ((engineSize == null) || engineSize.equals(""))
@@ -194,11 +295,21 @@ public class Car implements Serializable, Comparable<Car> {
         }
         setCarEngineSize(_intEngineSize);
     }
-
+    /**
+     * Getter roku produkcji.
+     * 
+     *  @return rok produkcji.
+     */
     public int getCarProdYear() {
         return carProdYear;
     }
 
+    /**
+     * 	Setter pojemności samochodu.
+     * 
+     *  @throws CarException w przypadku nieudanej konwersji na int lub pustego stringa jest zgłaszany wyjątek.
+     *  @param prodYear argument zawierający rok produkcji.
+     */
     public void setCarProdYear(String prodYear) throws CarException {
         if ((prodYear == null) || prodYear.equals(""))
             throw new CarException("Pole rok produkcji musi być wypełnione.");
@@ -209,11 +320,23 @@ public class Car implements Serializable, Comparable<Car> {
         }
     }
 
+    /**
+     * 	Metoda porównująca dwa samochody.
+     * 
+     *  @param c samochód z którym porównujemy.
+     */
     @Override
     public int compareTo(Car c) {
         return this.carOwnerName.compareTo(c.carOwnerName);
     }
 
+    
+    /**
+     * 	Setter pojemności samochodu.
+     * 
+     *  @throws CarException w przypadku nieudanej konwersji na int lub pustego stringa jest zgłaszany wyjątek.
+     *  @param prodYear argument zawierający rok produkcji.
+     */
     @Override
     public boolean equals(Object obj) {
 
@@ -235,12 +358,18 @@ public class Car implements Serializable, Comparable<Car> {
         return false;
     }
 
+    /**
+     * 	Zwraca hash code.
+     * 
+     *  @return Hash code jest generowany w dany sposób <code> 983 * getCarProdYear() * getCarOwnerName().hashCode() * getCarEngineSize() * getCarBrand().hashCode() * getCarCColor().hashCode();</code>
+     */
     @Override
     public int hashCode() {
         //tutaj możliwe że trzeba się zaimplementować wyjątki (sprawdzanie czy coś jest nullem)
         return 983 * getCarProdYear() * getCarOwnerName().hashCode() * getCarEngineSize() * getCarBrand().hashCode() * getCarCColor().hashCode();
     }
 }
+
 
 class CarException extends Exception {
 
