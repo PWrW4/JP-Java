@@ -22,9 +22,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
                     "Autor: Wojciech Wójcik\n" +
                     "Data:  8.11.2017 r.\n";
 
-    // Nazwa pliku w którym są zapisywane automatycznie dane przy
-    // zamykaniu aplikacji i z którego są czytane dane po uruchomieniu.
-    private static final String ALL_GROUPS_FILE = "LISTA_GRUP.BIN";
+
     WindowAdapter windowListener = new WindowAdapter() {
 
         @Override

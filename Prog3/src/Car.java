@@ -45,7 +45,9 @@ enum CColor {
  * @since   2017-10-11
  */
 public class Car implements Serializable, Comparable<Car> {
-    private Brand carBrand;
+
+	private static final long serialVersionUID = 1L;
+	private Brand carBrand;
     private int carProdYear;
     private CColor carCColor;
     private int carEngineSize;
