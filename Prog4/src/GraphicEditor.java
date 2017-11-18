@@ -107,6 +107,7 @@ public class GraphicEditor extends JFrame implements ActionListener {
         picture.addKeyListener(picture);
         picture.setFocusable(true);
         picture.addMouseListener(picture);
+        picture.addMouseMotionListener(picture);
         picture.setLayout(new FlowLayout());
 
         buttonPoint.addActionListener(this);

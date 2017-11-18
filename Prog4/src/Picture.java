@@ -168,6 +168,30 @@ class Picture extends JPanel implements KeyListener, MouseListener, MouseMotionL
         repaint();
     }
 
+
+
+    @Override
+    public void mousePressed(MouseEvent e)
+    {
+    	this.mouseX = e.getX();
+    	this.mouseY = e.getY();
+    }
+    
+    @Override
+    public void mouseDragged(MouseEvent e)
+    {
+    	moveAllFigures(e.getX() - mouseX, e.getY() - mouseY);
+    	mouseX = e.getX();
+    	mouseY = e.getY();
+   }
+
+    @Override
+    public void mouseReleased(MouseEvent e)
+    //Invoked when a mouse button has been released on a component.
+    {
+    }
+    
+
     @Override
     public void mouseEntered(MouseEvent e)
     //Invoked when the mouse enters a component.
@@ -181,30 +205,6 @@ class Picture extends JPanel implements KeyListener, MouseListener, MouseMotionL
     }
 
     @Override
-    public void mousePressed(MouseEvent e)
-    // Invoked when a mouse button has been pressed on a component.
-    {
-    	this.mouseX = e.getX();
-    	this.mouseY = e.getY();
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e)
-    //Invoked when a mouse button has been released on a component.
-    {
-    }
-    
-    @Override
-    public void mouseDragged(MouseEvent e)
-    {
-    	moveAllFigures(e.getX() - mouseX, e.getY() - mouseY);
-    	mouseX = e.getX();
-    	mouseY = e.getY();
-    	repaint();
-   }
-
-
-	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
