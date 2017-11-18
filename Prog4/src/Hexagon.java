@@ -26,10 +26,10 @@ public class Hexagon extends Figure {
 		float d_short = (float) (Math.sqrt(3)*a);
 		p1 = new Point(center.getX()-0.5f*a,center.getY()+0.5f*d_short);
 		p2 = new Point(center.getX()+0.5f*a,center.getY()+0.5f*d_short);
-		p3 = new Point(center.getX()+0.5f*d_short,center.getY());
+		p3 = new Point(center.getX()+a,center.getY());
 		p4 = new Point(center.getX()+0.5f*a,center.getY()-0.5f*d_short);
 		p5 = new Point(center.getX()-0.5f*a,center.getY()-0.5f*d_short);
-		p6 = new Point(center.getX()-0.5f*d_short,center.getY());
+		p6 = new Point(center.getX()-a,center.getY());
 		
 	}
 	
