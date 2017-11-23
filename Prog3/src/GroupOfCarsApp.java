@@ -196,15 +196,21 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
         return group;
     }
 
-    public static GroupOfCars createNewGroupOfPeople(GroupManagerApp groupManagerApp) throws CarException {
-        JFrame frame = new JFrame("Edycja nazwy grupy");
-        String nameOfGroup = JOptionPane.showInputDialog(frame, "Podaj nazwę grupy:");
+    public static GroupOfCars createNewGroupOfCars(GroupManagerApp groupManagerApp) throws CarException {
+        //JFrame frame = new JFrame("Edycja nazwy grupy");
+        String nameOfGroup = JOptionPane.showInputDialog("Podaj nazwę grupy:");
         GroupType groupType = choseCollectionWindow(groupManagerApp, null);
         GroupOfCarsApp APP = new GroupOfCarsApp();
         APP.currentGroup.setName(nameOfGroup);
         APP.currentGroup.setType(groupType);
         APP.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         return APP.currentGroup;
+    }
+
+    public static void editGroupOfCars(GroupOfCars _groupOfCars) throws CarException {
+        GroupOfCarsApp APP = new GroupOfCarsApp();
+        APP.currentGroup = _groupOfCars;
+        APP.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     @Override

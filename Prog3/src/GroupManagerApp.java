@@ -59,7 +59,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
     JMenuItem menuNewGroup = new JMenuItem("Utwórz grupę");
     JMenuItem menuEditGroup = new JMenuItem("Edytuj grupę");
     JMenuItem menuDeleteGroup = new JMenuItem("Usuń grupę");
-    JMenuItem menuLoadGroup = new JMenuItem("załaduj grupę z pliku");
+    JMenuItem menuLoadGroup = new JMenuItem("Załaduj grupę z pliku");
     JMenuItem menuSaveGroup = new JMenuItem("Zapisz grupę do pliku");
     JMenuItem menuGroupUnion = new JMenuItem("Połączenie grup");
     JMenuItem menuGroupIntersection = new JMenuItem("Część wspólna grup");
@@ -69,7 +69,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
     // Przyciski wyświetlane na panelu w głównym oknie aplikacji
     JButton buttonNewGroup = new JButton("Utwórz");
     JButton buttonEditGroup = new JButton("Edytuj");
-    JButton buttonDeleteGroup = new JButton(" Unuń ");
+    JButton buttonDeleteGroup = new JButton(" Usuń ");
     JButton buttonLoadGroup = new JButton("Otwórz");
     JButton buttonSavegroup = new JButton("Zapisz");
     JButton buttonUnion = new JButton("Suma");
@@ -266,20 +266,20 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
         try {
             if (source == menuNewGroup || source == buttonNewGroup) {
-                GroupOfCars group = GroupOfCarsApp.createNewGroupOfPeople(this);
+                GroupOfCars group = GroupOfCarsApp.createNewGroupOfCars(this);
                 if (group != null) {
                     currentList.add(group);
                 }
             }
 
             if (source == menuEditGroup || source == buttonEditGroup) {
-//                int index = viewList.getSelectedIndex();
-//                if (index >= 0) {
-//                    Iterator<GroupOfCars> iterator = currentList.iterator();
-//                    while (index-- > 0)
-//                        iterator.next();
-//                    new GroupOfCarsApp(this, iterator.next());
-//                }
+                int index = viewList.getSelectedIndex();
+                if (index >= 0) {
+                    Iterator<GroupOfCars> iterator = currentList.iterator();
+                    while (index-- > 0)
+                        iterator.next();
+                    GroupOfCarsApp.editGroupOfCars(iterator.next());
+                }
             }
 
             if (source == menuDeleteGroup || source == buttonDeleteGroup) {
@@ -320,13 +320,13 @@ public class GroupManagerApp extends JFrame implements ActionListener {
             if (source == menuGroupUnion || source == buttonUnion) {
                 String message1 =
                         "SUMA GRUP\n\n" +
-                                "Tworzenie grupy zawierającej wszystkie osoby z grupy pierwszej\n" +
-                                "oraz wszystkie osoby z grupy drugiej.\n" +
+                                "Tworzenie grupy zawierającej wszystkie samochody z grupy pierwszej\n" +
+                                "oraz wszystkie samochody z grupy drugiej.\n" +
                                 "Wybierz pierwszą grupę:";
                 String message2 =
                         "SUMA GRUP\n\n" +
-                                "Tworzenie grupy zawierającej wszystkie osoby z grupy pierwszej\n" +
-                                "oraz wszystkie osoby z grupy drugiej.\n" +
+                                "Tworzenie grupy zawierającej wszystkie samochody z grupy pierwszej\n" +
+                                "oraz wszystkie samochody z grupy drugiej.\n" +
                                 "Wybierz drugą grupę:";
                 GroupOfCars group1 = chooseGroup(this, message1);
                 if (group1 == null)
@@ -379,10 +379,10 @@ public class GroupManagerApp extends JFrame implements ActionListener {
 
             if (source == menuGroupSymmetricDiff || source == buttonSymmetricDiff) {
                 String message1 = "RÓŻNICA SYMETRYCZNA GRUP\n\n"
-                        + "Tworzenie grupy zawierającej osoby należące tylko do jednej z dwóch grup,\n"
+                        + "Tworzenie grupy zawierającej samochody należące tylko do jednej z dwóch grup,\n"
                         + "Wybierz pierwszą grupę:";
                 String message2 = "RÓŻNICA SYMETRYCZNA GRUP\n\n"
-                        + "Tworzenie grupy zawierającej osoby należące tylko do jednej z dwóch grup,\n"
+                        + "Tworzenie grupy zawierającej samochody należące tylko do jednej z dwóch grup,\n"
                         + "Wybierz drugą grupę:";
                 GroupOfCars group1 = chooseGroup(this, message1);
                 if (group1 == null)
@@ -424,7 +424,7 @@ class ViewGroupList extends JScrollPane {
         setPreferredSize(new Dimension(width, height));
         setBorder(BorderFactory.createTitledBorder("Lista grup:"));
 
-        String[] tableHeader = {"Nazwa grupy", "Typ kolekcji", "Liczba osób"};
+        String[] tableHeader = {"Nazwa grupy", "Typ kolekcji", "Liczba samochodów"};
         tableModel = new DefaultTableModel(tableHeader, 0);
         table = new JTable(tableModel) {
 
