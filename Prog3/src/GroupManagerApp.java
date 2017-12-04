@@ -278,7 +278,7 @@ public class GroupManagerApp extends JFrame implements ActionListener {
                     Iterator<GroupOfCars> iterator = currentList.iterator();
                     while (index-- > 0)
                         iterator.next();
-                    GroupOfCarsApp.editGroupOfCars(iterator.next());
+                    GroupOfCarsApp.editGroupOfCars(this,iterator.next());
                 }
             }
 

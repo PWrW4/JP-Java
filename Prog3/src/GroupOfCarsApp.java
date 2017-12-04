@@ -12,7 +12,7 @@ import java.util.Iterator;
 //    Data: 08.11.2017 r.
 //    Git repo: https://bitbucket.org/pwr_wroc_w4/jp3
 
-public class GroupOfCarsApp extends JFrame implements ActionListener {
+public class GroupOfCarsApp extends JDialog implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,13 +79,15 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     // na panelu w oknie głównym aplikacji
     ViewCarList viewList;
 
-    public GroupOfCarsApp() throws CarException {
+    public GroupOfCarsApp(Window parent) throws CarException {
+
+        super(parent, Dialog.ModalityType.DOCUMENT_MODAL);
         // Konfiguracja parametrów głównego okna aplikacji
         setTitle("Modyfikacja grup Samochodów");
         setSize(450, 500);
         setResizable(false);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         collectionField.setEditable(false);
         collectionField.setText(GroupType.ARRAY_LIST.name());
@@ -188,7 +190,7 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     // Po utworzeniu obiektu na pulpicie zostanie wyświetlone
     // główne okno aplikacji.
     public static void main(String[] args) throws CarException {
-        new GroupOfCarsApp();
+        //new GroupOfCarsApp();
     }
 
     static private GroupType choseCollectionWindow(Window parent, String message) {
@@ -197,19 +199,19 @@ public class GroupOfCarsApp extends JFrame implements ActionListener {
     }
 
     public static GroupOfCars createNewGroupOfCars(GroupManagerApp groupManagerApp) throws CarException {
-        //JFrame frame = new JFrame("Edycja nazwy grupy");
         String nameOfGroup = JOptionPane.showInputDialog("Podaj nazwę grupy:");
         GroupType groupType = choseCollectionWindow(groupManagerApp, null);
-        GroupOfCarsApp APP = new GroupOfCarsApp();
+        GroupOfCarsApp APP = new GroupOfCarsApp(groupManagerApp);
         APP.currentGroup.setName(nameOfGroup);
         APP.currentGroup.setType(groupType);
         APP.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         return APP.currentGroup;
     }
 
-    public static void editGroupOfCars(GroupOfCars _groupOfCars) throws CarException {
-        GroupOfCarsApp APP = new GroupOfCarsApp();
+    public static void editGroupOfCars(GroupManagerApp groupManagerApp,GroupOfCars _groupOfCars) throws CarException {
+        GroupOfCarsApp APP = new GroupOfCarsApp(groupManagerApp);
         APP.currentGroup = _groupOfCars;
+        APP.viewList.refreshView();
         APP.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
