@@ -7,8 +7,9 @@ class Consumer extends Worker {
 
 	@Override
 	public void run(){ 
+		running = true;
 		int item;
-		while(true){
+		while(running){
 			// Konsument pobiera przedmiot z bufora
 			item = buffer.get(this);
 			
@@ -16,6 +17,11 @@ class Consumer extends Worker {
 			sleep(MIN_CONSUMER_TIME, MAX_CONSUMER_TIME);
 			System.out.println("Konsument <" + name + ">       zużył: " + item);
 		}
+	}
+	
+
+	public void StopExec() {
+		running = false;
 	}
 	
 } // koniec klasy Consumer

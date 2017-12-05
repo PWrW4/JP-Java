@@ -1,8 +1,11 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.*;
 
-public class ThreadWindowApp extends JFrame {
+public class ThreadWindowApp extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new ThreadWindowApp();
@@ -12,7 +15,7 @@ public class ThreadWindowApp extends JFrame {
 	List<Producer> producerList = new ArrayList<Producer>();
 	List<Consumer> consumerList = new ArrayList<Consumer>();
 	
-	String[] intArreyForComboBox = {"1","2","3","4","5","6","7","8"};
+	private final String[] intArreyForComboBox = {"1","2","3","4","5","6","7","8"};
 	
 	int bufferListSize = 2;
 	int producerListSize = 2;
@@ -48,6 +51,17 @@ public class ThreadWindowApp extends JFrame {
 		setSize(500, 600);
 		setTitle("Aplikacja z wątkami");
 		
+		startButton.addActionListener(this);
+		stopButton.addActionListener(this);
+		minConsButton.addActionListener(this);
+		minProdButton.addActionListener(this);
+		maxConsButton.addActionListener(this);
+		MaxProdButton.addActionListener(this);
+		comboIntBufer.addActionListener(this);
+		comboIntCons.addActionListener(this);
+		comboIntProd.addActionListener(this);
+				
+		
 		JPanel panel = new JPanel();
 		
 		panel.add(startButton);
@@ -66,12 +80,120 @@ public class ThreadWindowApp extends JFrame {
 		panel.add(comboIntCons);
 		
 		panel.add(scrollPaneForText);
+		
 		textArea.setEditable(false);
 		textArea.setRows(25);
 		textArea.setColumns(40);
+		comboIntBufer.setSelectedIndex(1);
+		comboIntProd.setSelectedIndex(1);
+		comboIntCons.setSelectedIndex(1);
+		
+		setProdAndCons();
 		
         setContentPane(panel);
 		setVisible(true);
+	}
+
+
+	private void setProdAndCons() {
+		producerList = new ArrayList<Producer>();
+		consumerList = new ArrayList<Consumer>();
+		
+		for (int i = 0; i < producerListSize; i++) {
+			producerList.add(new Producer("Producent_" + i, buffer));
+		}
+		
+		for (int i = 0; i < consumerListSize; i++) {
+			consumerList.add(new Consumer("Producent_" + i, buffer));
+		}
+	}
+	
+	private void startSim() {
+		for (Consumer consumer : consumerList) {
+			consumer.start();
+		}
+		for (Producer producer : producerList) {
+			producer.start();
+		}
+	}
+	
+	private void stoptSim() {
+		for (Consumer consumer : consumerList) {
+			consumer.StopExec();
+			consumer.interrupt();
+		}
+		for (Producer producer : producerList) {
+			producer.StopExec();
+			producer.interrupt();
+		}
+		Worker.itemID = 0;
+	}
+
+	
+	public static int parseDefault(String number, int defaultVal) {
+		  try {
+		    return Integer.parseInt(number);
+		  } catch (NumberFormatException e) {
+		    return defaultVal;
+		  }
+		}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+        Object source = evt.getSource();
+		
+        if (source == startButton) {
+			startSim();
+		}
+        
+        if (source == stopButton) {
+			stoptSim();
+			setProdAndCons();
+		}
+        
+        if (source == minConsButton) {
+			stoptSim();
+			setProdAndCons();
+			Worker.MIN_CONSUMER_TIME = parseDefault(JOptionPane.showInputDialog("MIN_CONSUMER_TIME-Podaj czas w ms:"),Worker.MIN_CONSUMER_TIME); 
+		}
+        
+        if (source == maxConsButton) {
+			stoptSim();
+			setProdAndCons();
+			Worker.MAX_CONSUMER_TIME = parseDefault(JOptionPane.showInputDialog("MAX_CONSUMER_TIME-Podaj czas w ms:"),Worker.MAX_CONSUMER_TIME);
+		}
+        
+        if (source == minProdButton) {
+			stoptSim();
+			setProdAndCons();
+			Worker.MIN_PRODUCER_TIME = parseDefault(JOptionPane.showInputDialog("MIN_PRODUCER_TIME-Podaj czas w ms:"),Worker.MIN_PRODUCER_TIME);
+		}
+        
+        if (source == MaxProdButton) {
+			stoptSim();
+			setProdAndCons();
+			Worker.MAX_PRODUCER_TIME = parseDefault(JOptionPane.showInputDialog("MAX_PRODUCER_TIME-Podaj czas w ms:"),Worker.MAX_PRODUCER_TIME);
+		}
+        
+        if (source == comboIntCons) {
+			stoptSim();
+			setProdAndCons();
+			consumerListSize = Integer.parseInt((String)comboIntCons.getSelectedItem());
+		}
+        
+        if (source == comboIntProd) {
+			stoptSim();
+			setProdAndCons();
+			producerListSize = Integer.parseInt((String)comboIntProd.getSelectedItem());
+		}
+        
+        if (source == comboIntBufer) {
+			stoptSim();
+			setProdAndCons();
+			bufferListSize = Integer.parseInt((String)comboIntBufer.getSelectedItem());
+		}      
+        
 	}
 
 }

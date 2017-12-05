@@ -7,8 +7,9 @@ class Producer extends Worker {
 	
 	@Override
 	public void run(){ 
+		running = true;
 		int item;
-		while(true){
+		while(running){
 			// Producent "produkuje" nowy przedmiot.
 			item = itemID++;
 			System.out.println("Producent <" + name + ">   produkuje: " + item);
@@ -17,6 +18,12 @@ class Producer extends Worker {
 			// Producent umieszcza przedmiot w buforze.
 			buffer.put(this, item);
 		}
+	}
+	
+	
+
+	public void StopExec() {
+		running = false;
 	}
 	
 } // koniec klasy Producer

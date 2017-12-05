@@ -39,6 +39,7 @@ abstract class Worker extends Thread {
 
 	String name;
 	Buffer buffer;
+	boolean running;
 
 	@Override
 	public abstract void run();
