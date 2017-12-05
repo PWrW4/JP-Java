@@ -1,5 +1,6 @@
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.swing.JTextArea;
 
 /* 
  *  Problem producenta i konsumenta
@@ -37,9 +38,11 @@ abstract class Worker extends Thread {
 	public static int MIN_CONSUMER_TIME = 100;
 	public static int MAX_CONSUMER_TIME = 1000;
 
+	final static String newline = "\n";
 	String name;
 	Buffer buffer;
 	boolean running;
+	JTextArea textArea;
 
 	@Override
 	public abstract void run();

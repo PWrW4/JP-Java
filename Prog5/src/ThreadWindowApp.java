@@ -1,9 +1,9 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 
 public class ThreadWindowApp extends JFrame implements ActionListener {
 
@@ -11,21 +11,14 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 		new ThreadWindowApp();
 	}
 	
-	Buffer buffer = new Buffer();
-	List<Producer> producerList = new ArrayList<Producer>();
-	List<Consumer> consumerList = new ArrayList<Consumer>();
-	
-	private final String[] intArreyForComboBox = {"1","2","3","4","5","6","7","8"};
-	
-	int bufferListSize = 2;
-	int producerListSize = 2;
-	int consumerListSize = 2;
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
+	private final String[] intArreyForComboBox = {"1","2","3","4","5","6","7","8"};
 	
 	JButton startButton = new JButton("Start");
 	JButton stopButton = new JButton("Stop");
@@ -45,6 +38,16 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 	JTextArea textArea = new JTextArea();
 	JScrollPane scrollPaneForText = new JScrollPane(textArea);
 	
+	
+	Buffer buffer = new Buffer(textArea);
+	List<Producer> producerList = new ArrayList<Producer>();
+	List<Consumer> consumerList = new ArrayList<Consumer>();
+	
+
+	
+	int bufferListSize = 2;
+	int producerListSize = 2;
+	int consumerListSize = 2;
 	
 	public ThreadWindowApp () {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,6 +91,9 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 		comboIntProd.setSelectedIndex(1);
 		comboIntCons.setSelectedIndex(1);
 		
+		DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		
 		setProdAndCons();
 		
         setContentPane(panel);
@@ -100,11 +106,11 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 		consumerList = new ArrayList<Consumer>();
 		
 		for (int i = 0; i < producerListSize; i++) {
-			producerList.add(new Producer("Producent_" + i, buffer));
+			producerList.add(new Producer("Producent_" + i, buffer,textArea));
 		}
 		
 		for (int i = 0; i < consumerListSize; i++) {
-			consumerList.add(new Consumer("Producent_" + i, buffer));
+			consumerList.add(new Consumer("Producent_" + i, buffer,textArea));
 		}
 	}
 	

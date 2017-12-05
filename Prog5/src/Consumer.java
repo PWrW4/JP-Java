@@ -1,8 +1,11 @@
+import javax.swing.JTextArea;
+
 class Consumer extends Worker {
 	
-	public Consumer(String name , Buffer buffer){ 
+	public Consumer(String name , Buffer buffer,JTextArea textA){ 
 		this.name = name;
 		this.buffer = buffer;
+		this.textArea = textA;
 	}
 
 	@Override
@@ -15,10 +18,10 @@ class Consumer extends Worker {
 			
 			// Konsument zużywa popraany przedmiot.
 			sleep(MIN_CONSUMER_TIME, MAX_CONSUMER_TIME);
-			System.out.println("Konsument <" + name + ">       zużył: " + item);
+			textArea.append(newline + "Konsument <" + name + ">       zużył: " + item);
 		}
 	}
-	
+
 
 	public void StopExec() {
 		running = false;
