@@ -122,3 +122,5 @@ fabric.properties
 /**/.cache-main
 /**/.scala_dependencies
 /**/.worksheet
+
+*.zip
