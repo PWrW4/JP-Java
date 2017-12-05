@@ -13,7 +13,7 @@ class Buffer {
 	}
 	
 	public synchronized int get(Consumer consumer){
-		System.out.println("Konsument <" + consumer.name + "> chce zabrac");
+		textArea.append(newline + "Konsument <" + consumer.name + "> chce zabrac");
 		while (available == false){
 			try { 	textArea.append(newline + "Konsument <" + consumer.name + ">   bufor pusty - czekam");
 				  wait();

@@ -5,6 +5,14 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
+
+/*
+ * 				Program okienkowy z wątkami
+ *              Autor: Wojciech Wójcik
+ *              Data:  05.12.2017 r.
+ *  			repozytorium git https://bitbucket.org/pwr_wroc_w4/jp3
+ */
+
 public class ThreadWindowApp extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
@@ -18,6 +26,12 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	
+    private static final String ABOUT_MESSAGE =
+            "Program okienkowy z wątkami \n" +
+                    "Autor: Wojciech Wójcik\n" +
+                    "Data:  05.12.2017 r.\n" +
+                    "link do repozytorium git zakomentowany w klasie ThreadWindowApp";
+	
 	private final String[] intArreyForComboBox = {"1","2","3","4","5","6","7","8"};
 	
 	JButton startButton = new JButton("Start");
@@ -27,6 +41,8 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 	JButton maxConsButton = new JButton("Maksymalny czas konsumpcji");
 	JButton minProdButton = new JButton("Minimalny czas produkcji");
 	JButton MaxProdButton = new JButton("Maksymalny czas produkcji");
+	JButton CleartextAreaButton = new JButton("Czyszczenie konsoli");
+	JButton AboutButton = new JButton("About");
 	
 	JLabel comboBufferLabel = new JLabel("Rozmiar bufora: ");
 	JLabel comboProdLabel = new JLabel("Ilość Producentów: ");
@@ -51,7 +67,7 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 	
 	public ThreadWindowApp () {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(500, 600);
+		setSize(500, 650);
 		setTitle("Aplikacja z wątkami");
 		
 		startButton.addActionListener(this);
@@ -63,7 +79,8 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 		comboIntBufer.addActionListener(this);
 		comboIntCons.addActionListener(this);
 		comboIntProd.addActionListener(this);
-				
+		CleartextAreaButton.addActionListener(this);
+		AboutButton.addActionListener(this);
 		
 		JPanel panel = new JPanel();
 		
@@ -83,6 +100,9 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 		panel.add(comboIntCons);
 		
 		panel.add(scrollPaneForText);
+		
+		panel.add(CleartextAreaButton);
+		panel.add(AboutButton);
 		
 		textArea.setEditable(false);
 		textArea.setRows(25);
@@ -198,7 +218,15 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 			stoptSim();
 			setProdAndCons();
 			bufferListSize = Integer.parseInt((String)comboIntBufer.getSelectedItem());
-		}      
+		}    
+        
+        if (source == CleartextAreaButton) {
+        textArea.setText(""); 
+		}  
+        
+        if (source == AboutButton) {
+        JOptionPane.showMessageDialog(this, ABOUT_MESSAGE);
+		}  
         
 	}
 
