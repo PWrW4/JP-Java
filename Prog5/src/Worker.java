@@ -28,7 +28,7 @@ abstract class Worker extends Thread {
 	// przez producenta i zużytego przez konsumenta
 	// Ten identyfikator jest wspólny dla wszystkich producentów
 	// i będzie zwiększany przy produkcji każdego nowego przedmiotu
-	static int itemID = 0;
+	static int itemID = 1;
 
 	// Minimalny i maksymalny czas produkcji przedmiotu
 	public static int MIN_PRODUCER_TIME = 100;

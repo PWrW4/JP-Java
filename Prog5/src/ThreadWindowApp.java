@@ -108,6 +108,7 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 		textArea.setRows(25);
 		textArea.setColumns(40);
 		comboIntBufer.setSelectedIndex(1);
+		buffer.setBuffer(2);
 		comboIntProd.setSelectedIndex(1);
 		comboIntCons.setSelectedIndex(1);
 		
@@ -130,7 +131,7 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 		}
 		
 		for (int i = 0; i < consumerListSize; i++) {
-			consumerList.add(new Consumer("Producent_" + i, buffer,textArea));
+			consumerList.add(new Consumer("Konsument_" + i, buffer,textArea));
 		}
 	}
 	
@@ -152,7 +153,7 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 			producer.StopExec();
 			producer.interrupt();
 		}
-		Worker.itemID = 0;
+		Worker.itemID = 1;
 	}
 
 	
@@ -218,6 +219,7 @@ public class ThreadWindowApp extends JFrame implements ActionListener {
 			stoptSim();
 			setProdAndCons();
 			bufferListSize = Integer.parseInt((String)comboIntBufer.getSelectedItem());
+			buffer.setBuffer(bufferListSize);
 		}    
         
         if (source == CleartextAreaButton) {
