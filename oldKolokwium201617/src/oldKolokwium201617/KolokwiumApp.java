@@ -45,6 +45,7 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseListener
 		
 		setContentPane(panelik);
 		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		stoperThread.run();
 	}
 	
