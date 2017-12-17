@@ -4,13 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class KolokwiumApp extends JFrame implements ActionListener,MouseListener {
+public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionListener,MouseListener {
 
 	public static void main(String[] args) {
 		new KolokwiumApp();
@@ -34,7 +36,7 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseListener
 		setSize(400, 400);
 		setResizable(false);
 		
-
+		
 				
 		author.addActionListener(this);
 		restartStopera.addActionListener(this);
@@ -46,6 +48,9 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseListener
 		setContentPane(panelik);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		
+		
 		stoperThread.run();
 	}
 	
@@ -94,6 +99,20 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseListener
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
