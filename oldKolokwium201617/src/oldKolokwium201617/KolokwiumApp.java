@@ -1,5 +1,7 @@
 package oldKolokwium201617;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -11,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionListener,MouseListener {
 
@@ -25,6 +28,8 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionLi
 	
 	JLabel stoper = new JLabel("0");
 	
+	
+
 	/**
 	 * 
 	 */
@@ -35,24 +40,29 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionLi
 		setTitle("Wojciech Wójcikik");
 		setSize(400, 400);
 		setResizable(false);
-		
-		
-				
+								
 		author.addActionListener(this);
 		restartStopera.addActionListener(this);
 		
 		panelik.add(stoper);
 		panelik.add(restartStopera);
 		panelik.add(author);
-		
+				
 		setContentPane(panelik);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		
-		
 		stoperThread.run();
 	}
+	
+//    public void paint(Graphics g){
+//		int x=100;
+//		int y = 100;
+//		int r = 500;
+//		g.setColor(Color.BLACK);  
+//		x = x-(r/2);
+//		y = y-(r/2);
+//		g.fillOval(x,y,r,r);     
+//    }
 	
 	
 	@Override
