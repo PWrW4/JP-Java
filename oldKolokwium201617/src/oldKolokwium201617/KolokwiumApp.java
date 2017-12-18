@@ -21,7 +21,20 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionLi
 		new KolokwiumApp();
 	}
 	
-	JPanel panelik = new JPanel();
+	JPanel panelik = new JPanel() {
+		
+		@Override
+		public void paintComponent(Graphics g){
+			super.paintComponent(g);
+			int x=100;
+			int y = 100;
+			int r = 50;
+			g.setColor(Color.BLACK);  
+			x = x-(r/2);
+			y = y-(r/2);
+			g.fillOval(x,y,r,r);    
+	    }
+	};
 	
 	JButton author = new JButton("autor");
 	JButton restartStopera = new JButton("Restart");
@@ -54,15 +67,7 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionLi
 		stoperThread.run();
 	}
 	
-//    public void paint(Graphics g){
-//		int x=100;
-//		int y = 100;
-//		int r = 500;
-//		g.setColor(Color.BLACK);  
-//		x = x-(r/2);
-//		y = y-(r/2);
-//		g.fillOval(x,y,r,r);     
-//    }
+
 	
 	
 	@Override
