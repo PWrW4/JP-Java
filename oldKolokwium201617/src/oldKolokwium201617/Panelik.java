@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 
 public class Panelik extends JPanel implements MouseMotionListener, MouseListener {
 
+	boolean shouldIPrint = true, fillCircle = true;
+	
 	/**
 	 * 
 	 */
@@ -26,10 +28,25 @@ public class Panelik extends JPanel implements MouseMotionListener, MouseListene
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.setColor(Color.BLACK);  
-		X = X-(R/2);
-		Y = Y-(R/2);
-		g.fillOval(X,Y,R,R);    
+		if (shouldIPrint) {
+			if (fillCircle) {	
+				g.clearRect(0, 0, this.getWidth(), this.getHeight());
+				g.setColor(Color.BLACK);  
+				X = X-(R/2);
+				Y = Y-(R/2);
+				g.drawOval(X,Y,R,R);
+			}else {
+				g.clearRect(0, 0, this.getWidth(), this.getHeight());
+				g.setColor(Color.BLACK);  
+				X = X-(R/2);
+				Y = Y-(R/2);
+				g.fillOval(X,Y,R,R);  
+			}
+		}else
+		{
+			g.clearRect(0, 0, this.getWidth(), this.getHeight());
+		}
+  
     }
 	
 
@@ -41,43 +58,45 @@ public class Panelik extends JPanel implements MouseMotionListener, MouseListene
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		moveCircle(e.getX(),e.getY());
+		repaint();
 		
 	}
 
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+		shouldIPrint = true;
+		repaint();
 		
 	}
 
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		shouldIPrint = false;
+		repaint();
 	}
 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		fillCircle = false;
+		repaint();
 	}
 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		fillCircle = true;
+		repaint();
 	}
 
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		moveCircle(e.getX(),e.getY());
+		repaint();
 	}
 
 
