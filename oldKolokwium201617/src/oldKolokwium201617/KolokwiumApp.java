@@ -1,40 +1,21 @@
 package oldKolokwium201617;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 
-public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionListener,MouseListener {
+public class KolokwiumApp extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new KolokwiumApp();
 	}
 	
-	JPanel panelik = new JPanel() {
-		
-		@Override
-		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			int x=100;
-			int y = 100;
-			int r = 50;
-			g.setColor(Color.BLACK);  
-			x = x-(r/2);
-			y = y-(r/2);
-			g.fillOval(x,y,r,r);    
-	    }
-	};
+	Panelik panelik = new Panelik();
 	
 	JButton author = new JButton("autor");
 	JButton restartStopera = new JButton("Restart");
@@ -83,53 +64,5 @@ public class KolokwiumApp extends JFrame implements ActionListener,MouseMotionLi
 		
 	}
 
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
