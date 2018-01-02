@@ -47,7 +47,6 @@ public class ClientThread implements Runnable
                 if(message.equals("serwer"))/// tutaj wykonuje polecenia na książce telefonicznej
                 {
                     System.out.println("tutaj dostaje wiadomość od serwera!");
-                    //this.p
                 }
             }
             socket.close();
@@ -63,10 +62,6 @@ public class ClientThread implements Runnable
     {
         return name;
     }
-    public String tooString()
-    {
-        return name;
-    }
 
     public void sendMessage(String message)
     {
@@ -74,16 +69,12 @@ public class ClientThread implements Runnable
         {
             outputStream.writeObject(message);
 
-            if(message.equals("BYE"))//albo tutaj dopisać
+            if(message.equals("BYE"))
             {
                 phoneBookServer.removeClient(this);
                 socket.close();
                 socket = null;
             }
-			/*else if(message.equals("serwer"))
-			{
-				//tutaj chyba dostaje wiadomości od serwera bo tam wysyła do serwera
-			}*/
         }
         catch (Exception e)
         {

@@ -6,17 +6,10 @@ public class Test {
     {
         PhoneBookServer serwer = new PhoneBookServer();
 
+        String name = "test1";
+        String host = "localhost";
 
-        //pobieranie danych do połączenia z serwerem
-        String name;
-        String host;
 
-        host = JOptionPane.showInputDialog("Podaj host serwera: ");
-        name = JOptionPane.showInputDialog("Podaj nazwa użytkownika: ");
-
-        if(name != null && !name.equals(""))//czy wszystko zostało wprowadzone
-        {
-            new PhoneBookClient(name, host);
-        }
+        new PhoneBookClient(name, host);
     }
 }

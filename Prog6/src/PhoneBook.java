@@ -25,9 +25,11 @@ public class PhoneBook implements Serializable{
     public String SAVE(String nazwa_pliku){
 
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nazwa_pliku))) {
 
-            AddresList = (ConcurrentHashMap<String,String>) ois.readObject();
+		try (
+		        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nazwa_pliku))) {
+
+            AddresList = (ConcurrentHashMap) ois.readObject();
 
         } catch (Exception ex) {
             ex.printStackTrace();

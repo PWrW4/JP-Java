@@ -15,23 +15,18 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
     public static void main(String[] args)
     {
         PhoneBookServer serwer = new PhoneBookServer();
-        //serwer.printSentMessage("lol");
     }
 
     private ArrayList<ClientThread> listaOdbiorcow = new ArrayList<ClientThread>();//lista przechowująca aktualnych odbiorców
-    private String odbiorca = "unknown";//pole pokazująca odbiorcę, który wszedł w interakcję
-    private String messageSend = " - - - - - - - - ";//pole pokazujące ostatnią wysłaną wiadomość
+
     private boolean czyZamknacNasluchiwanie = false; //czy nadal zezwalać nowym klientom na porozumiewanie się z serwerem
     private PhoneBook phoneBook = new PhoneBook();//to ma w sobie kolekcję
 
     private JPanel panel = new JPanel();
 
-    private JLabel labelOdbiorca = new JLabel("Odbiorca: ");
-    private JLabel labelWyslijKomunikat = new JLabel("Wysyłany komunikat: ");
     private JLabel labelCoSieDzieje = new JLabel("Wejścia i wyjścia serwera: ");
 
-    private JTextField textFieldWysylanyKomunikat = new JTextField(20); // wyświetla to co się wysyła
-    private JTextField textFieldOdbiorca = new JTextField(20);
+    private JButton About = new JButton("O programie");
 
     private JTextArea textAreaCoSieDzieje = new JTextArea(20, 30);
 
@@ -41,16 +36,8 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
     {
         super("PhoneBookServer");
 
-        textFieldOdbiorca.setText(odbiorca);
-        textFieldOdbiorca.setEditable(false);
 
-        textFieldWysylanyKomunikat.setText(messageSend);
-        textFieldWysylanyKomunikat.setEditable(false);
 
-        panel.add(labelOdbiorca);
-        panel.add(textFieldOdbiorca);
-        panel.add(labelWyslijKomunikat);
-        panel.add(textFieldWysylanyKomunikat);
         panel.add(labelCoSieDzieje);
         panel.add(scroll);
 
@@ -123,39 +110,36 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
             if(splitedMessage[0].equals("LOAD"))
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
-                phoneBook.LOAD(splitedMessage[1]);
-                client.sendMessage("OK LOAD");
+                //phoneBook.LOAD(splitedMessage[1]);
+                client.sendMessage(phoneBook.LOAD(splitedMessage[1]));
                 //ładuje
             }
             else if(splitedMessage[0].equals("SAVE"))
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
-                phoneBook.SAVE(splitedMessage[1]);
-                client.sendMessage("OK SAVE");
+                client.sendMessage(phoneBook.SAVE(splitedMessage[1]));
             }
             else if (splitedMessage[0].equals("GET"))
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
-                client.sendMessage("OK GET " + phoneBook.GET(splitedMessage[1]));
+                client.sendMessage(phoneBook.GET(splitedMessage[1]));
             }
             else if(splitedMessage[0].equals("PUT"))
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
-                phoneBook.PUT(splitedMessage[1], splitedMessage[2]);
-                client.sendMessage("OK PUT");
+                client.sendMessage(phoneBook.PUT(splitedMessage[1], splitedMessage[2]));
             }
             else if (splitedMessage[0].equals("REPLACE"))
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
-                phoneBook.REPLACE(splitedMessage[1], splitedMessage[2]);
-                client.sendMessage("OK REPLACE");
+
+                client.sendMessage(phoneBook.REPLACE(splitedMessage[1], splitedMessage[2]));
 
             }
             else if (splitedMessage[0].equals("DELETE"))
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
-                phoneBook.DELETE(splitedMessage[1]);
-                client.sendMessage("OK DELETE");
+                client.sendMessage(phoneBook.DELETE(splitedMessage[1]));
             }
             else if(message.equals("BYE"))
             {
@@ -172,12 +156,11 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
             else if(message.equals("LIST"))
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
-                //przesyła listy imion które są zapamiętane w kolekcji
-                client.sendMessage("OK " + phoneBook.LIST());
+                client.sendMessage(phoneBook.LIST());
             }
             else
             {
-                textAreaCoSieDzieje.setText(client.getName() + " > ERROR podczas wprowadzania polecenia wystąpił błąd, najprawdopodobnie złe polecenie.\n" + text);
+                textAreaCoSieDzieje.setText(client.getName() + " > ERROR nieznane polecenie\n" + text);
             }
             repaint();
         }
@@ -188,27 +171,26 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
 
     }
 
-    synchronized public void printSentMessage(ClientThread client,String message)//wiadomość wysłana do klienta wprowadzana przez użytkownika
-    //to chyba można usunąć, zakomentować i sprawdzić
-    {
-        String text = textAreaCoSieDzieje.getText();
-        messageSend = message;
-        //textAreaCoSieDzieje.setText(client.getName() + " < " + message + "\n" + text);
-        try
-        {
-            if(message.equals("LOAD nazwa"))
-            {
-                textAreaCoSieDzieje.setText(client.getName() + "s < " + message + "\n" + text);// + text);
-
-                client.sendMessage("działa load");
-            }
-
-        }
-        catch (Exception e)
-        {
-            textAreaCoSieDzieje.setText(client.getName() + "s < ERROR " + e + "\n" + text);
-        }
-    }
+//    synchronized public void printSentMessage(ClientThread client,String message)//wiadomość wysłana do klienta wprowadzana przez użytkownika
+//    //to chyba można usunąć, zakomentować i sprawdzić
+//    {
+//        String text = textAreaCoSieDzieje.getText();
+//        //textAreaCoSieDzieje.setText(client.getName() + " < " + message + "\n" + text);
+//        try
+//        {
+//            if(message.equals("LOAD nazwa"))
+//            {
+//                textAreaCoSieDzieje.setText(client.getName() + "s < " + message + "\n" + text);// + text);
+//
+//                client.sendMessage("działa load");
+//            }
+//
+//        }
+//        catch (Exception e)
+//        {
+//            textAreaCoSieDzieje.setText(client.getName() + "s < ERROR " + e + "\n" + text);
+//        }
+//    }
 
     synchronized void addClient(ClientThread client)
     {
