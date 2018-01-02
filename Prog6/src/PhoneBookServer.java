@@ -145,6 +145,7 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
             {
                 textAreaCoSieDzieje.setText(client.getName() + " > " + message + "\n" + text);// + text);
                 client.sendMessage("OK BYE");
+                removeClient(client);
             }
             else if(message.equals("CLOSE"))
             {
@@ -152,6 +153,7 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
                 //serwer nie chce więcej klientów
                 this.czyZamknacNasluchiwanie = true;
                 client.sendMessage("OK CLOSE");
+                System.exit(0);
             }
             else if(message.equals("LIST"))
             {
@@ -171,26 +173,6 @@ public class PhoneBookServer extends JFrame implements ActionListener, Runnable 
 
     }
 
-//    synchronized public void printSentMessage(ClientThread client,String message)//wiadomość wysłana do klienta wprowadzana przez użytkownika
-//    //to chyba można usunąć, zakomentować i sprawdzić
-//    {
-//        String text = textAreaCoSieDzieje.getText();
-//        //textAreaCoSieDzieje.setText(client.getName() + " < " + message + "\n" + text);
-//        try
-//        {
-//            if(message.equals("LOAD nazwa"))
-//            {
-//                textAreaCoSieDzieje.setText(client.getName() + "s < " + message + "\n" + text);// + text);
-//
-//                client.sendMessage("działa load");
-//            }
-//
-//        }
-//        catch (Exception e)
-//        {
-//            textAreaCoSieDzieje.setText(client.getName() + "s < ERROR " + e + "\n" + text);
-//        }
-//    }
 
     synchronized void addClient(ClientThread client)
     {

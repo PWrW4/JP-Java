@@ -1,7 +1,5 @@
 import java.io.*;
-import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PhoneBook implements Serializable{
@@ -46,7 +44,7 @@ public class PhoneBook implements Serializable{
 
             if(key.equals(imie))
             {
-                return key.toString() + AddresList.get(key);
+                return key.toString() + " " +  AddresList.get(key);
             }
         }
         return "ERROR Nie znaleziono";
@@ -92,7 +90,10 @@ public class PhoneBook implements Serializable{
     }
 
     public String LIST(){
-        return "OK";
+        String stringDoZwrotu = "";
+        stringDoZwrotu += AddresList.toString();
+
+        return "OK \n"+ stringDoZwrotu;
     }
 
 }
