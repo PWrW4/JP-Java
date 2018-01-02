@@ -46,15 +46,10 @@ public class PhoneBook implements Serializable{
 
             if(key.equals(imie))
             {
-                //String[] keySplit =	key.toString().split(" ");
-
-                //System.out.println("return " + keySplit[1]);
-                //return keySplit[1];
-
-                return key.toString(); //wyświetla tylko imie
+                return key.toString() + AddresList.get(key);
             }
         }
-        return "get działa";
+        return "ERROR Nie znaleziono";
 
     }
 
@@ -72,7 +67,7 @@ public class PhoneBook implements Serializable{
 
             if(key.equals(imie))
             {
-                AddresList.remove(imie);
+                AddresList.remove(key);
                 AddresList.put(imie, numer);
             }
         }
@@ -90,10 +85,10 @@ public class PhoneBook implements Serializable{
             if(key.equals(imie))
             {
                 AddresList.remove(imie);
-                break;
+                return "OK";
             }
         }
-        return "OK";
+        return "ERROR nie znaleniono";
     }
 
     public String LIST(){
