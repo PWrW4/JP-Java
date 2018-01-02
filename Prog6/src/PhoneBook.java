@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,11 +10,11 @@ public class PhoneBook implements Serializable{
 
 
     public String LOAD(String nazwa_pliku){
+        try (
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nazwa_pliku))) {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nazwa_pliku))) {
 
-            oos.writeObject(AddresList);
-            System.out.println("Done");
+            AddresList = (ConcurrentHashMap<String,String>) ois.readObject();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -23,13 +24,10 @@ public class PhoneBook implements Serializable{
     }
 
     public String SAVE(String nazwa_pliku){
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nazwa_pliku))) {
 
-
-
-		try (
-		        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nazwa_pliku))) {
-
-            AddresList = (ConcurrentHashMap) ois.readObject();
+            oos.writeObject(AddresList);
+            System.out.println("Done");
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -53,7 +51,7 @@ public class PhoneBook implements Serializable{
                 //System.out.println("return " + keySplit[1]);
                 //return keySplit[1];
 
-                return key.toString() ; //wyświetla tylko imie
+                return key.toString(); //wyświetla tylko imie
             }
         }
         return "get działa";
@@ -74,11 +72,12 @@ public class PhoneBook implements Serializable{
 
             if(key.equals(imie))
             {
+                AddresList.remove(imie);
                 AddresList.put(imie, numer);
             }
         }
 
-        return "replace działa";
+        return "OK";
     }
 
     public String DELETE(String imie){
