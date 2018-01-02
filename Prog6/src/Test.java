@@ -1,4 +1,9 @@
-import javax.swing.*;
+/*
+    Wojciech Wójcik 235621
+    Aplikacja z sokecikami
+
+    Klasa która testuje server i klient
+ */
 
 public class Test {
 

@@ -1,3 +1,8 @@
+/*
+    Wojciech Wójcik 235621
+    Aplikacja z sokecikami
+ */
+
 import java.io.*;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,3 +1,10 @@
+/*
+    Wojciech Wójcik 235621
+    Aplikacja z sokecikami
+
+    Klasa z metodą run klienta.
+ */
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -10,10 +17,6 @@ public class ClientThread implements Runnable
 
     private ObjectOutputStream outputStream = null;
 
-    ClientThread(String prototypeDisplayValue)
-    {
-        name = prototypeDisplayValue;
-    }
 
     public ClientThread(PhoneBookServer server, Socket socket)
     {
