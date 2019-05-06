@@ -58,7 +58,9 @@ public class GraphicEditor extends JFrame implements ActionListener {
             new JMenuItem("Prostokąt"),
             new JMenuItem("Klepsydra"),
             new JMenuItem("Pomoc"),
-            new JMenuItem("Autor")
+            new JMenuItem("Autor"),
+            new JMenuItem("Zapisz plik"),
+            new JMenuItem("Otwórz plik")
     };
 
     private JButton buttonPoint = new JButton("Punkt");
@@ -94,7 +96,10 @@ public class GraphicEditor extends JFrame implements ActionListener {
         menu[1].addSeparator();
         menu[1].add(items[6]);
         menu[1].add(items[7]);
-        
+        menu[1].addSeparator();
+        menu[1].add(items[15]);
+        menu[1].add(items[16]);
+
         menu[2].add(items[13]);
         menu[2].add(items[14]);
 
@@ -172,6 +177,10 @@ public class GraphicEditor extends JFrame implements ActionListener {
             picture.moveAllFigures(0, 30);
         if (zrodlo == items[6])
             picture.scaleAllFigures(1.2f);
+        if (zrodlo == items[15])
+            picture.save();
+        if (zrodlo == items[16])
+            picture.open();
         if (zrodlo == items[7])
             picture.scaleAllFigures(0.8f);
         if (zrodlo == items[13])

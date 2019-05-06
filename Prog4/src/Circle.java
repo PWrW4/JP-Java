@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.io.Serializable;
 
-class Circle extends Point {
+class Circle extends Point implements Serializable {
     float r;
 
     Circle() {

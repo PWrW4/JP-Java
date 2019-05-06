@@ -1,6 +1,7 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Rectangle extends Figure {
+public class Rectangle extends Figure implements Serializable {
 
 	Point center;
 	

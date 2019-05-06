@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.*;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -210,4 +211,30 @@ class Picture extends JPanel implements KeyListener, MouseListener, MouseMotionL
 		
 	}
 
+    public void save() {
+
+        try {
+            ObjectOutputStream baos = new ObjectOutputStream(
+                    new BufferedOutputStream(new FileOutputStream("fig")));
+            ObjectOutputStream oos = null;
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(figures);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void open() {
+        try {
+            ObjectInputStream bais = new ObjectInputStream(
+                    new BufferedInputStream(new FileInputStream("fig")));
+            ObjectInputStream ois = null;
+            ois = new ObjectInputStream(bais);
+            figures = (Vector)ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

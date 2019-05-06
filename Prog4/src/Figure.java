@@ -1,7 +1,8 @@
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
-abstract class Figure {
+abstract class Figure implements Serializable {
 
     static Random random = new Random();
 

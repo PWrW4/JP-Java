@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.io.Serializable;
 
-class Triangle extends Figure {
+class Triangle extends Figure implements Serializable {
     Point point1, point2, point3;
 
     Triangle() {

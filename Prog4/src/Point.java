@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.io.Serializable;
 
-class Point extends Figure {
+class Point extends Figure implements Serializable {
 
     protected float x, y;
 

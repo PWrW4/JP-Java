@@ -1,6 +1,7 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Hexagon extends Figure {
+public class Hexagon extends Figure implements Serializable {
 
 	Point p1,p2,p3,p4,p5,p6;
 	

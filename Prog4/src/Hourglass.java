@@ -78,6 +78,7 @@ public class Hourglass extends Figure {
 
 	@Override
 	void draw(Graphics g) {
+		setColor(g);
         g.drawLine((int) p1.x, (int) p1.y,
                 (int) p2.x, (int) p2.y);
         g.drawLine((int) p2.x, (int) p2.y,
